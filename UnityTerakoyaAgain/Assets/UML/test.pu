@@ -1,0 +1,15 @@
+@startuml
+title シーケンス図
+アリス -> ボブ: リクエスト
+ボブ --> アリス: レスポンス
+@enduml
+
+@startuml hoge
+namespace Bonz{
+    Class BonzMover
+    BonzMover : -startPosition:Vector3
+    BonzMover : -moveRange:float
+    BonzMover : -void Start()
+    BonzMover : -void Update()
+}
+@enduml
