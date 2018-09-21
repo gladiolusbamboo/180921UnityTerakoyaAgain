@@ -1,10 +1,4 @@
-@startuml
-title シーケンス図
-アリス -> ボブ: リクエスト
-ボブ --> アリス: レスポンス
-@enduml
-
-@startuml hoge
+@startuml terakoya
 namespace Bonz{
     Class BonzMover
     BonzMover : -startPosition:Vector3
