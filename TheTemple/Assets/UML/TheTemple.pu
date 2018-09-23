@@ -1,0 +1,30 @@
+@startuml TheTemple
+namespace Orb{
+    Class OrbGenerator
+    OrbGenerator : -MAX_ORB:int
+    OrbGenerator : +orbPrefab:GameObject
+    OrbGenerator : +canvasGame:GameObject
+    OrbGenerator : -minViewPosition:Vector3
+    OrbGenerator : -maxViewPosition:Vector3
+    OrbGenerator : -void Start()
+    OrbGenerator : -void GenerateOrb()
+}
+
+namespace Score{
+    Class ScoreManager
+    ScoreManager : -score:int
+    ScoreManager : -nextScore:int
+    ScoreManager : ~int GetScore()
+    ScoreManager : ~int GetNextScore()
+
+    Class ScoreDisplayer
+    ScoreDisplayer : +textScore:GameObject
+    ScoreDisplayer : +ScoreManager:GameObject
+    ScoreDisplayer : -score:int
+    ScoreDisplayer : -nextScore:int
+    ScoreDisplayer : -void Start()
+    ScoreDisplayer : -void RefreshScoreText()
+
+    ScoreDisplayer --> ScoreManager
+}
+@enduml
