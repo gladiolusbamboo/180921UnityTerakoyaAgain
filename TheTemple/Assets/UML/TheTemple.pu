@@ -1,30 +1,74 @@
 @startuml TheTemple
 namespace Orb{
-    Class OrbGenerator
-    OrbGenerator : -MAX_ORB:int
-    OrbGenerator : +orbPrefab:GameObject
-    OrbGenerator : +canvasGame:GameObject
-    OrbGenerator : -minViewPosition:Vector3
-    OrbGenerator : -maxViewPosition:Vector3
-    OrbGenerator : -void Start()
-    OrbGenerator : -void GenerateOrb()
+    class OrbDeleter{
+        ~ Delete() : void
+    }
+
+    class OrbGenerateTimeManager{
+        + OrbsManager
+        + OrbGenerator
+        - lastOrbGenerateTime : DateTime
+        + GENERATE_SPAN_SEC : const int
+        - Start() : void
+        - Update() : void
+    }
+    OrbGenerateTimeManager --> OrbsManager
+    OrbGenerateTimeManager --> OrbGenerator
+
+    class OrbGenerator{
+        + OrbsManager
+        + orbPrefab : GameObject
+        + OrbPositionRandomSetter
+        - Start() : void
+        ~ GenerateOrb() : void
+    }
+    OrbGenerator --> OrbsManager
+    OrbGenerator --> OrbPositionRandomSetter
+
+    class OrbPositionRandomSetter{
+        + canvasGame : GameObject
+        - minViewPosition : const Vector3
+        - maxViewPosition : const Vector3
+        ~ SetRandomPosition(GameObject) : void
+    }
+
+    class OrbsManager{
+        + MAX_ORB : const int
+        - currentOrb : int
+        - Start() : void
+        ~ GetMaxOrb() : int
+        ~ GetCurrentOrbMaxOrbDifference() : int
+        ~ DeleteOrb() : void
+        ~ GenerateOrb() : void
+    }
+
+    class OrbTouchHandler{
+        + ScoreManager
+        + ScoreDisplayer
+        + OrbDeleter
+        + OrbsManager
+        + Touch() : void
+    }
+    OrbTouchHandler --> Score.ScoreManager
+    OrbTouchHandler --> Score.ScoreDisplayer
+    OrbTouchHandler --> OrbDeleter
+    OrbTouchHandler --> OrbsManager
 }
 
 namespace Score{
-    Class ScoreManager
-    ScoreManager : -score:int
-    ScoreManager : -nextScore:int
-    ScoreManager : ~int GetScore()
-    ScoreManager : ~int GetNextScore()
+    class ScoreDisplayer{
+        + scoreManager : GameObject
+        - Start() : void
+        ~ RefreshScoreText() : void
+    }
 
-    Class ScoreDisplayer
-    ScoreDisplayer : +textScore:GameObject
-    ScoreDisplayer : +ScoreManager:GameObject
-    ScoreDisplayer : -score:int
-    ScoreDisplayer : -nextScore:int
-    ScoreDisplayer : -void Start()
-    ScoreDisplayer : -void RefreshScoreText()
-
+    class ScoreManager{
+        - score : int
+        - nextScore : int
+        ~ AddScore(int) : int
+        ~ GetScore() : int
+        ~ GetNextScore() : int
+    }
     ScoreDisplayer --> ScoreManager
 }
 @enduml

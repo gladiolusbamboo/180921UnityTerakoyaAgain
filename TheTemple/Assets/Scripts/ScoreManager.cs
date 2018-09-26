@@ -7,8 +7,13 @@ namespace Score
 {
     public class ScoreManager : MonoBehaviour
     {
-        private readonly int score = 0;
+        private int score = 0;
         private readonly int nextScore = 100;
+
+        internal void AddScore(int addScore)
+        {
+            score += addScore;
+        }
 
         internal int GetScore()
         {

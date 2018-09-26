@@ -7,31 +7,23 @@ namespace Orb
 {
     public class OrbGenerator : MonoBehaviour
     {
-        private const int MAX_ORB = 10;
-
+        public OrbsManager orbsManager;
         public GameObject orbPrefab;
-        public GameObject canvasGame;
-
-        private Vector3 minViewPosition = new Vector3(-300.0f, -500.0f);
-        private Vector3 maxViewPosition = new Vector3(300.0f, -140.0f);
+        public OrbPositionRandomSetter orbPositionRandomSetter;
 
         // Use this for initialization
         void Start()
         {
-            for (int i = 0; i < MAX_ORB; i++)
+            for (int i = 0; i < orbsManager.GetMaxOrb(); i++)
             {
                 GenerateOrb();
             }
         }
 
-        private void GenerateOrb()
+        internal void GenerateOrb()
         {
             GameObject orb = Instantiate(orbPrefab);
-            orb.transform.SetParent(canvasGame.transform, false);
-            orb.transform.localPosition = new Vector3(
-                UnityEngine.Random.Range(minViewPosition.x, maxViewPosition.x),
-                UnityEngine.Random.Range(minViewPosition.y, maxViewPosition.y),
-                0f);
+            orbPositionRandomSetter.SetRandomPosition(orb);
         }
     }
 }
