@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
 namespace Orb
 {
@@ -10,6 +8,7 @@ namespace Orb
         public OrbsManager orbsManager;
         public GameObject orbPrefab;
         public OrbPositionRandomSetter orbPositionRandomSetter;
+        public Sprite[] sprites;
 
         // Use this for initialization
         void Start()
@@ -23,6 +22,9 @@ namespace Orb
         internal void GenerateOrb()
         {
             GameObject orb = Instantiate(orbPrefab);
+            var orbData = orb.GetComponent<OrbData>();
+            orbData.SetOrbKind();
+            orb.GetComponent<Image>().sprite = sprites[(int)orbData.GetOrbKind()];
             orbPositionRandomSetter.SetRandomPosition(orb);
         }
     }

@@ -19,6 +19,7 @@ namespace Orb{
         + OrbsManager
         + orbPrefab : GameObject
         + OrbPositionRandomSetter
+        + sprites : Sprite[]
         - Start() : void
         ~ GenerateOrb() : void
     }
@@ -47,12 +48,26 @@ namespace Orb{
         + ScoreDisplayer
         + OrbDeleter
         + OrbsManager
+        + TempleScaler
+        + LevelUpChecker
         + Touch() : void
     }
     OrbTouchHandler --> Score.ScoreManager
     OrbTouchHandler --> Score.ScoreDisplayer
     OrbTouchHandler --> OrbDeleter
     OrbTouchHandler --> OrbsManager
+    OrbTouchHandler --> Temple.TempleScaler
+    OrbTouchHandler --> Score.LevelUpChecker
+
+    class OrbData{
+        - orbKind : GameEnum.ORB_KIND
+        + ScoreManager
+        ~ GetScore() : int
+        ~ SetOrbKind() : void
+        ~ GetOrbKind() : GameEnum.ORB_KIND
+    }
+    OrbData --> Score.ScoreManager
+    OrbData --> Enum.GameEnum
 }
 
 namespace Score{
@@ -64,11 +79,61 @@ namespace Score{
 
     class ScoreManager{
         - score : int
+        - level : int
         - nextScore : int
+        - nextScores : int[]
+        - isClearFlag : bool
+        ~ GetMaxLevel() : int
         ~ AddScore(int) : int
+        ~ GetLevel() : int
+        ~ IsClear() : bool
         ~ GetScore() : int
+        ~ NextLevel() : bool
         ~ GetNextScore() : int
     }
     ScoreDisplayer --> ScoreManager
+
+    class LevelUpChecker{
+        + ScoreManager
+        + EffectGenerator
+        + TempleSpriteChanger
+        ~ Check() : void
+    }
+    LevelUpChecker --> ScoreManager
+    LevelUpChecker --> Effect.EffectGenerator
+    LevelUpChecker --> Temple.TempleSpriteChanger
 }
+
+namespace Effect{
+    class EffectGenerator{
+        + ScoreManager
+        + smokePrefab : GameObject
+        + kusudamaPrefab : GameObject
+        + canvasGame : GameObject
+        ~ GenerateEffect() : void
+    }
+    EffectGenerator --> Score.ScoreManager
+}
+
+namespace Temple{
+    class TempleScaler{
+        + ScoreManager
+        ~ Scale() : void
+    }
+
+    class TempleSpriteChanger{
+        + sprites : Sprite[]
+        + imageComponent : Image
+        ~ ChangeTempleSprite(int level) : void
+    }
+
+}
+
+
+namespace Enum{
+    class GameEnum{
+        + ORB_KIND : enum
+    }
+}
+
 @enduml

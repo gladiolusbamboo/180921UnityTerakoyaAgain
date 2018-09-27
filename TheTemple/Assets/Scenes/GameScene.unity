@@ -138,6 +138,8 @@ Transform:
   - {fileID: 1215861507}
   - {fileID: 1096044006}
   - {fileID: 614345492}
+  - {fileID: 232580031}
+  - {fileID: 658433312}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -209,6 +211,49 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 93570566}
+--- !u!1 &232580030
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 232580031}
+  - component: {fileID: 232580032}
+  m_Layer: 0
+  m_Name: LevelUpChecker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &232580031
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 232580030}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 82101049}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &232580032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 232580030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eecb68c4392237f40a9012cbd3038b38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreManager: {fileID: 1096044007}
+  effectGenerator: {fileID: 658433311}
+  templeSpriteChanger: {fileID: 1333240313}
 --- !u!1 &506907795
 GameObject:
   m_ObjectHideFlags: 0
@@ -360,7 +405,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   orbsManager: {fileID: 614345493}
   orbGenerator: {fileID: 1215861508}
-  GENERATE_SPAN_SEC: 2
+  GENERATE_SPAN_SEC: 1
 --- !u!1 &627251277
 GameObject:
   m_ObjectHideFlags: 0
@@ -429,6 +474,52 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 627251277}
+--- !u!1 &658433310
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 658433312}
+  - component: {fileID: 658433311}
+  m_Layer: 0
+  m_Name: EffectGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &658433311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 658433310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5d70619174fa9c44a7ff035fdeb3628, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreManager: {fileID: 1096044007}
+  smokePrefab: {fileID: 1070158958950016, guid: 736af764dc920f04884613f1b129f401,
+    type: 2}
+  kusudamaPrefab: {fileID: 1127732774876324, guid: a00330dbca91c394db00454557cbad51,
+    type: 2}
+  canvasGame: {fileID: 506907795}
+--- !u!4 &658433312
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 658433310}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 82101049}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &923109236
 GameObject:
   m_ObjectHideFlags: 0
@@ -608,6 +699,10 @@ MonoBehaviour:
   orbsManager: {fileID: 614345493}
   orbPrefab: {fileID: 1789059761}
   orbPositionRandomSetter: {fileID: 1215861509}
+  sprites:
+  - {fileID: 21300000, guid: 9cb52f84697a7754e801b51d0fa794a7, type: 3}
+  - {fileID: 21300000, guid: e512629ca91903544a57ef2c31c187d3, type: 3}
+  - {fileID: 21300000, guid: 67b07f462743430488b8ade4ff96e6bb, type: 3}
 --- !u!114 &1215861509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -630,6 +725,8 @@ GameObject:
   - component: {fileID: 1333240309}
   - component: {fileID: 1333240311}
   - component: {fileID: 1333240310}
+  - component: {fileID: 1333240312}
+  - component: {fileID: 1333240313}
   m_Layer: 5
   m_Name: ImageTemple
   m_TagString: Untagged
@@ -645,7 +742,7 @@ RectTransform:
   m_GameObject: {fileID: 1333240308}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 506907799}
   m_RootOrder: 1
@@ -688,6 +785,34 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1333240308}
+--- !u!114 &1333240312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1333240308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f34706806ec958438bdb9d496d935d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreManager: {fileID: 1096044007}
+--- !u!114 &1333240313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1333240308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3fd70f18a2d5a44583d7f16be9344d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300000, guid: 219ee95eb5b98e3438ac6575959652c8, type: 3}
+  - {fileID: 21300000, guid: 0b39ca539ab7ca444b492f975d73392e, type: 3}
+  - {fileID: 21300000, guid: c93a856b649138b4b892d6dbaf9470ad, type: 3}
+  imageComponent: {fileID: 1333240310}
 --- !u!1 &1341591303
 GameObject:
   m_ObjectHideFlags: 0
@@ -903,6 +1028,7 @@ GameObject:
   - component: {fileID: 1789059764}
   - component: {fileID: 1789059763}
   - component: {fileID: 1789059769}
+  - component: {fileID: 1789059770}
   m_Layer: 5
   m_Name: OrbPrefab
   m_TagString: Untagged
@@ -945,6 +1071,8 @@ MonoBehaviour:
   scoreDisplayer: {fileID: 1341591308}
   orbDeleter: {fileID: 1789059769}
   orbsManager: {fileID: 614345493}
+  templeScaler: {fileID: 1333240312}
+  levelUpChecker: {fileID: 232580032}
 --- !u!114 &1789059764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1059,6 +1187,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2962c33ce4ab316488be39c410752056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1789059770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1789059761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d467aad62601c6b49a1313fe9401e218, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreManager: {fileID: 1096044007}
 --- !u!1 &1919647364
 GameObject:
   m_ObjectHideFlags: 0
