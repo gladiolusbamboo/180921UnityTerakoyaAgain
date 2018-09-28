@@ -1,6 +1,8 @@
 ﻿using Score;
 using Temple;
 using UnityEngine;
+using SE;
+using Mokugyo;
 
 namespace Orb
 {
@@ -12,6 +14,8 @@ namespace Orb
         public OrbsManager orbsManager;
         public TempleScaler templeScaler;
         public LevelUpChecker levelUpChecker;
+        public SEPlayer sePlayer;
+        public MokugyoAnimator mokugyoAnimator;
 
         public void Touch()
         {
@@ -22,6 +26,8 @@ namespace Orb
             levelUpChecker.Check();
             templeScaler.Scale();
             scoreDisplayer.RefreshScoreText();
+            sePlayer.SoundGetScoreSE();
+            mokugyoAnimator.AnimateMokugyo();
         }
 
     }

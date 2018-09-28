@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 224618027435781400}
   - component: {fileID: 222917649966438664}
   - component: {fileID: 114857443102145856}
+  - component: {fileID: 95776113895464110}
   m_Layer: 5
   m_Name: ImageSmoke
   m_TagString: Untagged
@@ -28,6 +29,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!95 &95776113895464110
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1070158958950016}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: df8f855491634a64ab7d9eff4e7bc231, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114857443102145856
 MonoBehaviour:
   m_ObjectHideFlags: 1

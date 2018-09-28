@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Temple;
+using SE;
 
 namespace Score
 {
@@ -12,6 +13,7 @@ namespace Score
         public ScoreManager scoreManager;
         public EffectGenerator effectGenerator;
         public TempleSpriteChanger templeSpriteChanger;
+        public SEPlayer sePlayer;
 
         internal void Check()
         {
@@ -20,8 +22,13 @@ namespace Score
                 if (scoreManager.NextLevel())
                 {
                     effectGenerator.GenerateEffect();
-                    if(!scoreManager.IsClear())
+                    if (scoreManager.IsClear())
+                        sePlayer.SoundClearSE();
+                    else
+                    {
+                        sePlayer.SoundLevelUpSE();
                         templeSpriteChanger.ChangeTempleSprite(scoreManager.GetLevel());
+                    }
                 }
             }
         }

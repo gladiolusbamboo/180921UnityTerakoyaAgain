@@ -25,6 +25,7 @@ namespace Orb{
     }
     OrbGenerator --> OrbsManager
     OrbGenerator --> OrbPositionRandomSetter
+    OrbGenerator --> OrbData
 
     class OrbPositionRandomSetter{
         + canvasGame : GameObject
@@ -50,6 +51,8 @@ namespace Orb{
         + OrbsManager
         + TempleScaler
         + LevelUpChecker
+        + SEPlayer
+        + MokugyoAnimator
         + Touch() : void
     }
     OrbTouchHandler --> Score.ScoreManager
@@ -58,6 +61,8 @@ namespace Orb{
     OrbTouchHandler --> OrbsManager
     OrbTouchHandler --> Temple.TempleScaler
     OrbTouchHandler --> Score.LevelUpChecker
+    OrbTouchHandler --> SE.SEPlayer
+    OrbTouchHandler --> Mokugyo.MokugyoAnimator
 
     class OrbData{
         - orbKind : GameEnum.ORB_KIND
@@ -97,11 +102,13 @@ namespace Score{
         + ScoreManager
         + EffectGenerator
         + TempleSpriteChanger
+        + SEPlayer
         ~ Check() : void
     }
     LevelUpChecker --> ScoreManager
     LevelUpChecker --> Effect.EffectGenerator
     LevelUpChecker --> Temple.TempleSpriteChanger
+    LevelUpChecker --> SE.SEPlayer
 }
 
 namespace Effect{
@@ -120,6 +127,7 @@ namespace Temple{
         + ScoreManager
         ~ Scale() : void
     }
+    TempleScaler --> Score.ScoreManager
 
     class TempleSpriteChanger{
         + sprites : Sprite[]
@@ -129,10 +137,28 @@ namespace Temple{
 
 }
 
-
 namespace Enum{
     class GameEnum{
         + ORB_KIND : enum
+    }
+}
+
+namespace SE{
+    class SEPlayer{
+        + getScoreSE : AudioClip
+        + levelUpSE : AudioClip
+        + clearSE : AudioClip
+        + AudioSource
+        ~ SoundGetScoreSE() : void
+        ~ SoundLevelUpSE() : void
+        ~ SoundClearSE() : void
+    }
+}
+
+namespace Mokugyo{
+    class MokugyoAnimator{
+        + Animator
+        ~ AnimateMokugyo() : void
     }
 }
 
