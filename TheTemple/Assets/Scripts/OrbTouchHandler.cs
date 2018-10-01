@@ -3,6 +3,7 @@ using Temple;
 using UnityEngine;
 using SE;
 using Mokugyo;
+using SaveData;
 
 namespace Orb
 {
@@ -16,6 +17,7 @@ namespace Orb
         public LevelUpChecker levelUpChecker;
         public SEPlayer sePlayer;
         public MokugyoAnimator mokugyoAnimator;
+        public SaveDataManager saveDataManager;
 
         public void Touch()
         {
@@ -28,6 +30,7 @@ namespace Orb
             scoreDisplayer.RefreshScoreText();
             sePlayer.SoundGetScoreSE();
             mokugyoAnimator.AnimateMokugyo();
+            saveDataManager.Save();
         }
 
     }

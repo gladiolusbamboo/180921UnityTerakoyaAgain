@@ -11,7 +11,6 @@ namespace Score
         private int level = 0;
         private int nextScore = 10;
         private int[] nextScores = new int[3] { 10, 20, 30 };
-        private bool isClearFlag;
 
         internal int GetMaxLevel()
         {
@@ -20,7 +19,7 @@ namespace Score
 
         internal void AddScore(int addScore)
         {
-            if (!isClearFlag)
+            if (!IsClear())
             {
                 score += addScore;
             }
@@ -28,19 +27,42 @@ namespace Score
                 score = nextScore;
         }
 
+        internal int GetScore()
+        {
+            return score;
+        }
+
         internal int GetLevel()
         {
             return level;
         }
 
-        internal bool IsClear()
+        internal int GetNextScore()
         {
-            return isClearFlag;
+            return nextScore;
         }
 
-        internal int GetScore()
+        internal void SetScore(int val)
         {
-            return score;
+            score = val;
+        }
+
+        internal void SetLevel(int val)
+        {
+            level = val;
+        }
+
+        internal void SetNextScore()
+        {
+            if (!IsClear())
+                nextScore = nextScores[level];
+            else
+                nextScore = nextScores[nextScores.Length - 1];
+        }
+
+        internal bool IsClear()
+        {
+            return level >= nextScores.Length;        
         }
 
         internal bool NextLevel()
@@ -50,20 +72,13 @@ namespace Score
             if (level < nextScores.Length)
             {
                 level++;
-                if (level == nextScores.Length)
-                    isClearFlag = true;
-                else
+                if (!IsClear())
                 {
                     score = 0;
-                    nextScore = nextScores[level];
+                    SetNextScore();
                 }
             }
             return true;
-        }
-
-        internal int GetNextScore()
-        {
-            return nextScore;
         }
     }
 }

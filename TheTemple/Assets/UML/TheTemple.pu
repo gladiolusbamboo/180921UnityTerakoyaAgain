@@ -1,19 +1,24 @@
 @startuml TheTemple
 namespace Orb{
     class OrbDeleter{
+        + RectTransform
         ~ Delete() : void
     }
 
     class OrbGenerateTimeManager{
         + OrbsManager
         + OrbGenerator
+        + SaveDataManager
         - lastOrbGenerateTime : DateTime
         + GENERATE_SPAN_SEC : const int
         - Start() : void
         - Update() : void
+        ~ GetLastOrbGenerateTime() : DateTime
+        ~ SetLastOrbGenerateTime(DateTime) : void
     }
     OrbGenerateTimeManager --> OrbsManager
     OrbGenerateTimeManager --> OrbGenerator
+    OrbGenerateTimeManager --> SaveData.SaveDataManager
 
     class OrbGenerator{
         + OrbsManager
@@ -37,11 +42,12 @@ namespace Orb{
     class OrbsManager{
         + MAX_ORB : const int
         - currentOrb : int
-        - Start() : void
         ~ GetMaxOrb() : int
         ~ GetCurrentOrbMaxOrbDifference() : int
         ~ DeleteOrb() : void
         ~ GenerateOrb() : void
+        ~ GetCurrentOrb() : int
+        ~ SetCurrentOrb(int) : void
     }
 
     class OrbTouchHandler{
@@ -53,6 +59,7 @@ namespace Orb{
         + LevelUpChecker
         + SEPlayer
         + MokugyoAnimator
+        + SaveDataManager
         + Touch() : void
     }
     OrbTouchHandler --> Score.ScoreManager
@@ -63,6 +70,7 @@ namespace Orb{
     OrbTouchHandler --> Score.LevelUpChecker
     OrbTouchHandler --> SE.SEPlayer
     OrbTouchHandler --> Mokugyo.MokugyoAnimator
+    OrbTouchHandler --> SaveData.SaveDataManager
 
     class OrbData{
         - orbKind : GameEnum.ORB_KIND
@@ -81,6 +89,7 @@ namespace Score{
         - Start() : void
         ~ RefreshScoreText() : void
     }
+    ScoreDisplayer --> ScoreManager
 
     class ScoreManager{
         - score : int
@@ -90,13 +99,15 @@ namespace Score{
         - isClearFlag : bool
         ~ GetMaxLevel() : int
         ~ AddScore(int) : int
-        ~ GetLevel() : int
-        ~ IsClear() : bool
         ~ GetScore() : int
-        ~ NextLevel() : bool
+        ~ GetLevel() : int
         ~ GetNextScore() : int
+        ~ SetScore(int) : void
+        ~ SetLevel(int) : void
+        ~ SetNextScore(int) : void
+        ~ IsClear() : bool
+        ~ NextLevel() : bool
     }
-    ScoreDisplayer --> ScoreManager
 
     class LevelUpChecker{
         + ScoreManager
@@ -162,4 +173,25 @@ namespace Mokugyo{
     }
 }
 
+namespace SaveData{
+    class SaveDataManager{
+        - KEY_SCORE : const string
+        - KEY_LEVEL : const string
+        - KEY_ORB : const string
+        - KEY_TIME : const string
+        + ScoreManager
+        + OrbsManager
+        + OrbGenerateTimeManager
+        + TempleScaler
+        + TempleSpriteChanger
+        - Start() : void
+        - Load() : void
+        ~ Save() : void
+    }
+    SaveDataManager --> Score.ScoreManager
+    SaveDataManager --> Orb.OrbsManager
+    SaveDataManager --> Orb.OrbGenerateTimeManager
+    SaveDataManager --> Temple.TempleScaler
+    SaveDataManager --> Temple.TempleSpriteChanger
+}
 @enduml

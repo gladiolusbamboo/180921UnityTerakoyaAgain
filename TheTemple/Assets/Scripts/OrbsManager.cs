@@ -11,12 +11,6 @@ namespace Orb
 
         private int currentOrb;
 
-        // Use this for initialization
-        void Start()
-        {
-            currentOrb = MAX_ORB;
-        }
-
         internal int GetMaxOrb()
         {
             return MAX_ORB;
@@ -30,11 +24,25 @@ namespace Orb
         internal void DeleteOrb()
         {
             currentOrb--;
+            if (currentOrb < 0)
+                currentOrb = 0;
         }
 
         internal void GenerateOrb()
         {
             currentOrb++;
+            if (currentOrb > MAX_ORB)
+                currentOrb = MAX_ORB;
+        }
+
+        internal int GetCurrentOrb()
+        {
+            return currentOrb;
+        }
+
+        internal void SetCurrentOrb(int val)
+        {
+            currentOrb = val;
         }
     }
 }

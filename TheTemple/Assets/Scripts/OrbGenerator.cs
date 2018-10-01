@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using SaveData;
 
 namespace Orb
 {
@@ -13,7 +14,7 @@ namespace Orb
         // Use this for initialization
         void Start()
         {
-            for (int i = 0; i < orbsManager.GetMaxOrb(); i++)
+            for (int i = 0; i < orbsManager.GetCurrentOrb(); i++)
             {
                 GenerateOrb();
             }

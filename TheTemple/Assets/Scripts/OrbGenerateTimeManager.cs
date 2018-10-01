@@ -1,10 +1,12 @@
-﻿using System;
+﻿using SaveData;
+using System;
 using UnityEngine;
 
 namespace Orb {
     public class OrbGenerateTimeManager : MonoBehaviour {
         public OrbsManager orbsManager;
         public OrbGenerator orbGenerator;
+        public SaveDataManager saveDataManager;
 
         private DateTime lastOrbGenerateTime;
 
@@ -29,8 +31,19 @@ namespace Orb {
                     orbGenerator.GenerateOrb();
                     orbsManager.GenerateOrb();
                     lastOrbGenerateTime += TimeSpan.FromSeconds(GENERATE_SPAN_SEC);
+                    saveDataManager.Save();
                 }
             }
+        }
+
+        internal DateTime GetLastOrbGenerateTime()
+        {
+            return lastOrbGenerateTime;
+        }
+
+        internal void SetLastOrbGenerateTime(DateTime savedTime)
+        {
+            lastOrbGenerateTime = savedTime;
         }
     }
 }

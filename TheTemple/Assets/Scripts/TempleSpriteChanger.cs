@@ -14,9 +14,9 @@ namespace Temple
         internal void ChangeTempleSprite(int level)
         {
             if (level < sprites.Length)
-            {
                 imageComponent.sprite = sprites[level];
-            }
+            else
+                imageComponent.sprite = sprites[sprites.Length - 1];
         }
     }
 }
