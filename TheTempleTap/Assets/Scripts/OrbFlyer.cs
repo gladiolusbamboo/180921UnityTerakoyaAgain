@@ -6,16 +6,10 @@ using Temple;
 public class OrbFlyer : MonoBehaviour {
     public LevelUpChecker levelUpChecker;
     public TempleScaler templeScaler;
-
-    // Use this for initialization
-    void Start () {
-//        Fly();
-    }
+    public RectTransform rect;
 
     public void Fly()
     {
-        RectTransform rect = GetComponent<RectTransform>();
-
         // オーブの軌跡設定
         Vector3[] path =
         {
@@ -29,7 +23,7 @@ public class OrbFlyer : MonoBehaviour {
         rect.DOScale(new Vector3(0.5f,0.5f,0f),0.5f);
     }
 
-    public void orbFlyerCallBack()
+    private void orbFlyerCallBack()
     {
         levelUpChecker.Check();
         Destroy(this.gameObject);

@@ -662,7 +662,6 @@ MonoBehaviour:
   orbsManager: {fileID: 614345493}
   orbGenerator: {fileID: 1215861508}
   saveDataManager: {fileID: 2119458771}
-  GENERATE_SPAN_SEC: 1
 --- !u!1 &627251277
 GameObject:
   m_ObjectHideFlags: 0
@@ -1323,6 +1322,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelUpChecker: {fileID: 232580032}
+  templeScaler: {fileID: 1333240312}
+  rect: {fileID: 1789059762}
 --- !u!58 &1789059765
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1534,8 +1535,6 @@ MonoBehaviour:
   orbGenerator: {fileID: 1215861508}
   scoreManager: {fileID: 1096044007}
   orbsManager: {fileID: 614345493}
-  levelUpChecker: {fileID: 232580032}
-  templeScaler: {fileID: 1333240312}
   scoreDisplayer: {fileID: 1341591308}
   sePlayer: {fileID: 45808206}
   mokugyoAnimator: {fileID: 1919647368}

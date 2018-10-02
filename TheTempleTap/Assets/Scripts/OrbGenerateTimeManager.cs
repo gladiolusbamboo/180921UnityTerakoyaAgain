@@ -10,14 +10,14 @@ namespace Orb {
 
         private DateTime lastOrbGenerateTime;
 
-        public int GENERATE_SPAN_SEC;
+//        public int GENERATE_SPAN_SEC;
 
         void Start() {
             lastOrbGenerateTime = DateTime.UtcNow;
         }
 
-        void Update() {
-/*            var currentOrbMaxOrbDifference = orbsManager.GetCurrentOrbMaxOrbDifference();
+/*        void Update() {
+            var currentOrbMaxOrbDifference = orbsManager.GetCurrentOrbMaxOrbDifference();
             if (currentOrbMaxOrbDifference == 0)
             {
                 lastOrbGenerateTime = DateTime.UtcNow;
@@ -33,8 +33,8 @@ namespace Orb {
                     lastOrbGenerateTime += TimeSpan.FromSeconds(GENERATE_SPAN_SEC);
                     saveDataManager.Save();
                 }
-            }/**/
-        }
+            }
+        }*/
 
         internal DateTime GetLastOrbGenerateTime()
         {

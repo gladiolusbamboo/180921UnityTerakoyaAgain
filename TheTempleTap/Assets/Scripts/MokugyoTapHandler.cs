@@ -9,7 +9,6 @@ namespace Mokugyo {
         public OrbGenerator orbGenerator;
         public ScoreManager scoreManager;
         public OrbsManager orbsManager;
-        public LevelUpChecker levelUpChecker;
         public ScoreDisplayer scoreDisplayer;
         public SEPlayer sePlayer;
         public MokugyoAnimator mokugyoAnimator;

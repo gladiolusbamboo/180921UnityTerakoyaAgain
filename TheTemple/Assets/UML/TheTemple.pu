@@ -1,18 +1,20 @@
 @startuml TheTemple
 namespace Orb{
-    class OrbDeleter{
-        + RectTransform
-        ~ Delete() : void
+    class OrbFlyer{
+        + LevelUpChecker
+        + TempleScaler
+        + Fly() : void
+        - orbFlyerCallBack() : void
     }
+    OrbFlyer --> Score.LevelUpChecker
+    OrbFlyer --> Temple.TempleScaler
 
     class OrbGenerateTimeManager{
         + OrbsManager
         + OrbGenerator
         + SaveDataManager
         - lastOrbGenerateTime : DateTime
-        + GENERATE_SPAN_SEC : const int
         - Start() : void
-        - Update() : void
         ~ GetLastOrbGenerateTime() : DateTime
         ~ SetLastOrbGenerateTime(DateTime) : void
     }
@@ -25,7 +27,6 @@ namespace Orb{
         + orbPrefab : GameObject
         + OrbPositionRandomSetter
         + sprites : Sprite[]
-        - Start() : void
         ~ GenerateOrb() : void
     }
     OrbGenerator --> OrbsManager
@@ -49,28 +50,6 @@ namespace Orb{
         ~ GetCurrentOrb() : int
         ~ SetCurrentOrb(int) : void
     }
-
-    class OrbTouchHandler{
-        + ScoreManager
-        + ScoreDisplayer
-        + OrbDeleter
-        + OrbsManager
-        + TempleScaler
-        + LevelUpChecker
-        + SEPlayer
-        + MokugyoAnimator
-        + SaveDataManager
-        + Touch() : void
-    }
-    OrbTouchHandler --> Score.ScoreManager
-    OrbTouchHandler --> Score.ScoreDisplayer
-    OrbTouchHandler --> OrbDeleter
-    OrbTouchHandler --> OrbsManager
-    OrbTouchHandler --> Temple.TempleScaler
-    OrbTouchHandler --> Score.LevelUpChecker
-    OrbTouchHandler --> SE.SEPlayer
-    OrbTouchHandler --> Mokugyo.MokugyoAnimator
-    OrbTouchHandler --> SaveData.SaveDataManager
 
     class OrbData{
         - orbKind : GameEnum.ORB_KIND
@@ -171,6 +150,26 @@ namespace Mokugyo{
         + Animator
         ~ AnimateMokugyo() : void
     }
+
+    class MokugyoTapHandler{
+        + OrbGenerator
+        + ScoreManager
+        + OrbsManager
+        + ScoreDisplayer
+        + SEPlayer
+        + MokugyoAnimator
+        + SaveDataManager
+        + Tap() : void
+    }
+    MokugyoTapHandler --> Orb.OrbGenerator
+    MokugyoTapHandler --> Score.ScoreManager
+    MokugyoTapHandler --> Orb.OrbsManager
+    MokugyoTapHandler --> Score.ScoreDisplayer
+    MokugyoTapHandler --> SE.SEPlayer
+    MokugyoTapHandler --> MokugyoAnimator
+    MokugyoTapHandler --> SaveData.SaveDataManager
+    MokugyoTapHandler --> Orb.OrbData
+    MokugyoTapHandler --> Orb.OrbFlyer    
 }
 
 namespace SaveData{
@@ -181,7 +180,6 @@ namespace SaveData{
         - KEY_TIME : const string
         + ScoreManager
         + OrbsManager
-        + OrbGenerateTimeManager
         + TempleScaler
         + TempleSpriteChanger
         - Start() : void
