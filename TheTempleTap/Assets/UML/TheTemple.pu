@@ -1,0 +1,197 @@
+@startuml TheTemple
+namespace Orb{
+    class OrbDeleter{
+        + RectTransform
+        ~ Delete() : void
+    }
+
+    class OrbGenerateTimeManager{
+        + OrbsManager
+        + OrbGenerator
+        + SaveDataManager
+        - lastOrbGenerateTime : DateTime
+        + GENERATE_SPAN_SEC : const int
+        - Start() : void
+        - Update() : void
+        ~ GetLastOrbGenerateTime() : DateTime
+        ~ SetLastOrbGenerateTime(DateTime) : void
+    }
+    OrbGenerateTimeManager --> OrbsManager
+    OrbGenerateTimeManager --> OrbGenerator
+    OrbGenerateTimeManager --> SaveData.SaveDataManager
+
+    class OrbGenerator{
+        + OrbsManager
+        + orbPrefab : GameObject
+        + OrbPositionRandomSetter
+        + sprites : Sprite[]
+        - Start() : void
+        ~ GenerateOrb() : void
+    }
+    OrbGenerator --> OrbsManager
+    OrbGenerator --> OrbPositionRandomSetter
+    OrbGenerator --> OrbData
+
+    class OrbPositionRandomSetter{
+        + canvasGame : GameObject
+        - minViewPosition : const Vector3
+        - maxViewPosition : const Vector3
+        ~ SetRandomPosition(GameObject) : void
+    }
+
+    class OrbsManager{
+        + MAX_ORB : const int
+        - currentOrb : int
+        ~ GetMaxOrb() : int
+        ~ GetCurrentOrbMaxOrbDifference() : int
+        ~ DeleteOrb() : void
+        ~ GenerateOrb() : void
+        ~ GetCurrentOrb() : int
+        ~ SetCurrentOrb(int) : void
+    }
+
+    class OrbTouchHandler{
+        + ScoreManager
+        + ScoreDisplayer
+        + OrbDeleter
+        + OrbsManager
+        + TempleScaler
+        + LevelUpChecker
+        + SEPlayer
+        + MokugyoAnimator
+        + SaveDataManager
+        + Touch() : void
+    }
+    OrbTouchHandler --> Score.ScoreManager
+    OrbTouchHandler --> Score.ScoreDisplayer
+    OrbTouchHandler --> OrbDeleter
+    OrbTouchHandler --> OrbsManager
+    OrbTouchHandler --> Temple.TempleScaler
+    OrbTouchHandler --> Score.LevelUpChecker
+    OrbTouchHandler --> SE.SEPlayer
+    OrbTouchHandler --> Mokugyo.MokugyoAnimator
+    OrbTouchHandler --> SaveData.SaveDataManager
+
+    class OrbData{
+        - orbKind : GameEnum.ORB_KIND
+        + ScoreManager
+        ~ GetScore() : int
+        ~ SetOrbKind() : void
+        ~ GetOrbKind() : GameEnum.ORB_KIND
+    }
+    OrbData --> Score.ScoreManager
+    OrbData --> Enum.GameEnum
+}
+
+namespace Score{
+    class ScoreDisplayer{
+        + scoreManager : GameObject
+        - Start() : void
+        ~ RefreshScoreText() : void
+    }
+    ScoreDisplayer --> ScoreManager
+
+    class ScoreManager{
+        - score : int
+        - level : int
+        - nextScore : int
+        - nextScores : int[]
+        - isClearFlag : bool
+        ~ GetMaxLevel() : int
+        ~ AddScore(int) : int
+        ~ GetScore() : int
+        ~ GetLevel() : int
+        ~ GetNextScore() : int
+        ~ SetScore(int) : void
+        ~ SetLevel(int) : void
+        ~ SetNextScore(int) : void
+        ~ IsClear() : bool
+        ~ NextLevel() : bool
+    }
+
+    class LevelUpChecker{
+        + ScoreManager
+        + EffectGenerator
+        + TempleSpriteChanger
+        + SEPlayer
+        ~ Check() : void
+    }
+    LevelUpChecker --> ScoreManager
+    LevelUpChecker --> Effect.EffectGenerator
+    LevelUpChecker --> Temple.TempleSpriteChanger
+    LevelUpChecker --> SE.SEPlayer
+}
+
+namespace Effect{
+    class EffectGenerator{
+        + ScoreManager
+        + smokePrefab : GameObject
+        + kusudamaPrefab : GameObject
+        + canvasGame : GameObject
+        ~ GenerateEffect() : void
+    }
+    EffectGenerator --> Score.ScoreManager
+}
+
+namespace Temple{
+    class TempleScaler{
+        + ScoreManager
+        ~ Scale() : void
+    }
+    TempleScaler --> Score.ScoreManager
+
+    class TempleSpriteChanger{
+        + sprites : Sprite[]
+        + imageComponent : Image
+        ~ ChangeTempleSprite(int level) : void
+    }
+
+}
+
+namespace Enum{
+    class GameEnum{
+        + ORB_KIND : enum
+    }
+}
+
+namespace SE{
+    class SEPlayer{
+        + getScoreSE : AudioClip
+        + levelUpSE : AudioClip
+        + clearSE : AudioClip
+        + AudioSource
+        ~ SoundGetScoreSE() : void
+        ~ SoundLevelUpSE() : void
+        ~ SoundClearSE() : void
+    }
+}
+
+namespace Mokugyo{
+    class MokugyoAnimator{
+        + Animator
+        ~ AnimateMokugyo() : void
+    }
+}
+
+namespace SaveData{
+    class SaveDataManager{
+        - KEY_SCORE : const string
+        - KEY_LEVEL : const string
+        - KEY_ORB : const string
+        - KEY_TIME : const string
+        + ScoreManager
+        + OrbsManager
+        + OrbGenerateTimeManager
+        + TempleScaler
+        + TempleSpriteChanger
+        - Start() : void
+        - Load() : void
+        ~ Save() : void
+    }
+    SaveDataManager --> Score.ScoreManager
+    SaveDataManager --> Orb.OrbsManager
+    SaveDataManager --> Orb.OrbGenerateTimeManager
+    SaveDataManager --> Temple.TempleScaler
+    SaveDataManager --> Temple.TempleSpriteChanger
+}
+@enduml
