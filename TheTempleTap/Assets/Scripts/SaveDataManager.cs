@@ -2,6 +2,7 @@
 using UnityEngine;
 using Orb;
 using Temple;
+using System;
 
 namespace SaveData
 {
@@ -14,24 +15,20 @@ namespace SaveData
 
         public ScoreManager scoreManager;
         public OrbsManager orbsManager;
-//        public OrbGenerateTimeManager orbGenerateTimeManager;
+        public OrbGenerateTimeManager orbGenerateTimeManager;
         public TempleScaler templeScaler;
         public TempleSpriteChanger templeSpriteChanger;
 
-        private void Start()
+        internal void Load()
         {
-            PlayerPrefs.DeleteAll();
-            Load();   
-        }
-
-        private void Load()
-        {
+//            PlayerPrefs.DeleteAll();
+//            Debug.Log("LOAD");
             scoreManager.SetScore(PlayerPrefs.GetInt(KEY_SCORE, 0));
             scoreManager.SetLevel(PlayerPrefs.GetInt(KEY_LEVEL, 0));
             scoreManager.SetNextScore();
             orbsManager.SetCurrentOrb(PlayerPrefs.GetInt(KEY_ORB, 10));
             string savedTime = PlayerPrefs.GetString(KEY_TIME, "");
-/*            if (savedTime == "")
+            if (savedTime == "")
             {
                 orbGenerateTimeManager.SetLastOrbGenerateTime(DateTime.UtcNow);
             }
@@ -39,7 +36,7 @@ namespace SaveData
             {
                 long temp = Convert.ToInt64(savedTime);
                 orbGenerateTimeManager.SetLastOrbGenerateTime(DateTime.FromBinary(temp));
-            }*/
+            }
             templeSpriteChanger.ChangeTempleSprite(scoreManager.GetLevel());
             templeScaler.Scale();
         }
@@ -49,7 +46,7 @@ namespace SaveData
             PlayerPrefs.SetInt(KEY_SCORE, scoreManager.GetScore());
             PlayerPrefs.SetInt(KEY_LEVEL, scoreManager.GetLevel());
             PlayerPrefs.SetInt(KEY_ORB, orbsManager.GetCurrentOrb());
-//            PlayerPrefs.SetString(KEY_TIME, orbGenerateTimeManager.GetLastOrbGenerateTime().ToBinary().ToString());
+            PlayerPrefs.SetString(KEY_TIME, orbGenerateTimeManager.GetLastOrbGenerateTime().ToBinary().ToString());
             PlayerPrefs.Save();
         }
     }

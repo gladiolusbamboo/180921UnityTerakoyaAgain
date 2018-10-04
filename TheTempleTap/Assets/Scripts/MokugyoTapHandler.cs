@@ -3,6 +3,7 @@ using Orb;
 using Score;
 using SE;
 using SaveData;
+using System;
 
 namespace Mokugyo {
     public class MokugyoTapHandler : MonoBehaviour {
@@ -13,6 +14,8 @@ namespace Mokugyo {
         public SEPlayer sePlayer;
         public MokugyoAnimator mokugyoAnimator;
         public SaveDataManager saveDataManager;
+        public OrbGenerateTimeManager orbGenerateTimeManager;
+        public LevelUpChecker levelUpChecker;
 
         public void Tap()
         {
@@ -20,11 +23,13 @@ namespace Mokugyo {
             var generatedOrbData = generatedOrb.GetComponent<OrbData>();
             var orbFlyer = generatedOrb.GetComponent<OrbFlyer>();
             scoreManager.AddScore(generatedOrbData.GetScore());
+            levelUpChecker.Check();
             orbsManager.DeleteOrb();
             orbFlyer.Fly();
             scoreDisplayer.RefreshScoreText();
             sePlayer.SoundGetScoreSE();
             mokugyoAnimator.AnimateMokugyo();
+            orbGenerateTimeManager.SetLastOrbGenerateTime(DateTime.UtcNow);
             saveDataManager.Save();
         }
     }

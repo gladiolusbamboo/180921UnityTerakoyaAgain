@@ -1,26 +1,40 @@
 @startuml TheTemple
 namespace Orb{
     class OrbFlyer{
-        + LevelUpChecker
         + TempleScaler
+        + RectTransform
         + Fly() : void
         - orbFlyerCallBack() : void
     }
-    OrbFlyer --> Score.LevelUpChecker
     OrbFlyer --> Temple.TempleScaler
 
     class OrbGenerateTimeManager{
         + OrbsManager
         + OrbGenerator
         + SaveDataManager
+        + ScoreManager
+        + ScoreDisplayer
+        + SEPlayer
+        + MokugyoAnimator
+        + LevelUpChecker
         - lastOrbGenerateTime : DateTime
+        - numOfOrb : int
+        + GENERATE_SPAN_SEC : int
         - Start() : void
+        - Update() : void
+        ~ OnApplicationPause(bool) : void        
+        - CreateNewOrb() : void
         ~ GetLastOrbGenerateTime() : DateTime
         ~ SetLastOrbGenerateTime(DateTime) : void
     }
     OrbGenerateTimeManager --> OrbsManager
     OrbGenerateTimeManager --> OrbGenerator
     OrbGenerateTimeManager --> SaveData.SaveDataManager
+    OrbGenerateTimeManager --> Score.ScoreManager
+    OrbGenerateTimeManager --> Score.ScoreDisplayer
+    OrbGenerateTimeManager --> SE.SEPlayer
+    OrbGenerateTimeManager --> Mokugyo.MokugyoAnimator
+    OrbGenerateTimeManager --> Score.LevelUpChecker
 
     class OrbGenerator{
         + OrbsManager
@@ -159,6 +173,8 @@ namespace Mokugyo{
         + SEPlayer
         + MokugyoAnimator
         + SaveDataManager
+        + OrbGenerateTimeManager
+        + LevelUpChecker
         + Tap() : void
     }
     MokugyoTapHandler --> Orb.OrbGenerator
@@ -168,6 +184,8 @@ namespace Mokugyo{
     MokugyoTapHandler --> SE.SEPlayer
     MokugyoTapHandler --> MokugyoAnimator
     MokugyoTapHandler --> SaveData.SaveDataManager
+    MokugyoTapHandler --> Orb.OrbGenerateTimeManager
+    MokugyoTapHandler --> Score.LevelUpChecker
     MokugyoTapHandler --> Orb.OrbData
     MokugyoTapHandler --> Orb.OrbFlyer    
 }
@@ -180,9 +198,9 @@ namespace SaveData{
         - KEY_TIME : const string
         + ScoreManager
         + OrbsManager
+        + OrbGenerateTimeManager
         + TempleScaler
         + TempleSpriteChanger
-        - Start() : void
         - Load() : void
         ~ Save() : void
     }

@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
 using DG.Tweening;
-using Score;
 using Temple;
 
 public class OrbFlyer : MonoBehaviour {
-    public LevelUpChecker levelUpChecker;
     public TempleScaler templeScaler;
     public RectTransform rect;
 
@@ -25,7 +23,6 @@ public class OrbFlyer : MonoBehaviour {
 
     private void orbFlyerCallBack()
     {
-        levelUpChecker.Check();
         Destroy(this.gameObject);
         templeScaler.Scale();
     }

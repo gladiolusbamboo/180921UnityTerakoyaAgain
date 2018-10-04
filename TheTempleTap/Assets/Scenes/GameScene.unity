@@ -662,6 +662,12 @@ MonoBehaviour:
   orbsManager: {fileID: 614345493}
   orbGenerator: {fileID: 1215861508}
   saveDataManager: {fileID: 2119458771}
+  scoreManager: {fileID: 1096044007}
+  scoreDisplayer: {fileID: 1341591308}
+  sePlayer: {fileID: 45808206}
+  mokugyoAnimator: {fileID: 1919647368}
+  levelUpChecker: {fileID: 232580032}
+  GENERATE_SPAN_SEC: 1
 --- !u!1 &627251277
 GameObject:
   m_ObjectHideFlags: 0
@@ -1321,7 +1327,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60b0904c4cd5cd54f9dd05384e486145, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelUpChecker: {fileID: 232580032}
   templeScaler: {fileID: 1333240312}
   rect: {fileID: 1789059762}
 --- !u!58 &1789059765
@@ -1539,6 +1544,8 @@ MonoBehaviour:
   sePlayer: {fileID: 45808206}
   mokugyoAnimator: {fileID: 1919647368}
   saveDataManager: {fileID: 2119458771}
+  orbGenerateTimeManager: {fileID: 614345494}
+  levelUpChecker: {fileID: 232580032}
 --- !u!114 &1919647371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1762,5 +1769,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreManager: {fileID: 1096044007}
   orbsManager: {fileID: 614345493}
+  orbGenerateTimeManager: {fileID: 614345494}
   templeScaler: {fileID: 1333240312}
   templeSpriteChanger: {fileID: 1333240313}
