@@ -37,15 +37,5 @@ sysinfo.txt
 *.unitypackage
 
 # 他人様の素材など
-bonz.png
-back.png
-kusudama.png
-mokugyo.png
-orb1.png
-orb2.png
-orb3.png
-smoke.png
-temple1.png
-temple2.png
-temple3.png
 *.mp3
+*.png
