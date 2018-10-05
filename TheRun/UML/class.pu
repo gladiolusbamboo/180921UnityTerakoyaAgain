@@ -1,0 +1,43 @@
+@startuml TheRun
+class GameEnum{
+    + MOVE_DIR : enum
+}
+
+namespace UI{
+    interface IButtonHandler{
+        + Tap() : void
+        + Release() : void
+    }
+
+    class LeftButtonHandler{
+        + PlayerMover
+        + Tap() : void
+        + Release() : void
+    }
+    LeftButtonHandler --> Player.PlayerMover
+    LeftButtonHandler --|> IButtonHandler
+
+    class RightButtonHandler{
+        + PlayerMover
+        + Tap() : void
+        + Release : void
+    }
+    RightButtonHandler --> Player.PlayerMover
+    RightButtonHandler --|> IButtonHandler
+}
+
+namespace Player{
+    class PlayerMover{
+        + Rigidbody2D
+        - moveDirection = GameEnum.MOVE_DIR.STOP : GameEnum.MOVE_DIR
+        - moveSpeed : float
+        - MOVE_SPEED = 3f : const float 
+        ~ SetMoveDirection(GameEnum.MOVE_DIR dir) : void
+        - FixedUpdate() : void
+        - Move() : void
+    }
+}
+
+
+
+@enduml
