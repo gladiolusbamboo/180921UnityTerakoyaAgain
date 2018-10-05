@@ -39,3 +39,5 @@ sysinfo.txt
 # 他人様の素材など
 *.mp3
 *.png
+
+!TheRun.png
