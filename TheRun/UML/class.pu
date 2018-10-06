@@ -20,10 +20,18 @@ namespace UI{
     class RightButtonHandler{
         + PlayerMover
         + Tap() : void
-        + Release : void
+        + Release() : void
     }
     RightButtonHandler --> Player.PlayerMover
     RightButtonHandler --|> IButtonHandler
+
+    class JumpButtonHandler{
+        + PlayerJumper
+        + Tap() : void
+        + Release() : void
+    }
+    JumpButtonHandler --> Player.PlayerJumper
+    JumpButtonHandler --|> IButtonHandler
 }
 
 namespace Player{
@@ -36,8 +44,29 @@ namespace Player{
         - FixedUpdate() : void
         - Move() : void
     }
+    Player --> .GameEnum
+
+    class PlayerJumper{
+        + Rigidbody2D
+        + jumpPower : float
+        - goJump : bool
+        + blockLayer : LayerMask
+        - isUsingButton : bool
+        - FixedUpdate() : void
+        ~ Jump(bool isButton) : void
+        ~ Stop(bool isButton) : void
+        - canJump() : bool
+    }
 }
 
-
+namespace KeyboardInput{
+    class KeyboardHandler{
+        + PlayerMover
+        + PlayerJumper
+        - Update() : void
+    }
+    KeyboardHandler --> Player.PlayerMover
+    KeyboardHandler --> Player.PlayerJumper
+}
 
 @enduml

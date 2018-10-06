@@ -7,12 +7,35 @@ namespace Player
         public Rigidbody2D rbody;
 
         private GameEnum.MOVE_DIR moveDirection = GameEnum.MOVE_DIR.STOP;
+
+        private bool isUsingButton = false;
+
         private float moveSpeed;
+
         private const float MOVE_SPEED = 3f;
 
-        internal void SetMoveDirection(GameEnum.MOVE_DIR dir)
+        internal void Move(GameEnum.MOVE_DIR direction, bool isButton)
         {
-            moveDirection = dir;
+            if(isButton)
+            {
+                moveDirection = direction;
+                isUsingButton = true;
+            }else{
+                if(!isUsingButton)
+                    moveDirection = direction;
+            }
+        }
+
+        internal void Stop(bool isButton)
+        {
+            if (isButton)
+            {
+                moveDirection = GameEnum.MOVE_DIR.STOP;
+                isUsingButton = false;
+            }else{
+                if (!isUsingButton)
+                    moveDirection = GameEnum.MOVE_DIR.STOP;
+            }
         }
 
         private void FixedUpdate()

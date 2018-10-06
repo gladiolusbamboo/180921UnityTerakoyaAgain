@@ -9,12 +9,12 @@ namespace UI
 
         public void Tap()
         {
-            playerMover.SetMoveDirection(GameEnum.MOVE_DIR.LEFT);
+            playerMover.Move(GameEnum.MOVE_DIR.LEFT, true);
         }
 
         public void Release()
         {
-            playerMover.SetMoveDirection(GameEnum.MOVE_DIR.STOP);
+            playerMover.Stop(true);
         }
     }
 }

@@ -1,17 +1,20 @@
 ﻿using Player;
 using UnityEngine;
 
-public class RightButtonHandler : MonoBehaviour, IButtonHandler
+namespace UI
 {
-    public PlayerMover playerMover;
-
-    public void Tap()
+    public class RightButtonHandler : MonoBehaviour, IButtonHandler
     {
-        playerMover.SetMoveDirection(GameEnum.MOVE_DIR.RIGHT);
-    }
+        public PlayerMover playerMover;
 
-    public void Release()
-    {
-        playerMover.SetMoveDirection(GameEnum.MOVE_DIR.STOP);
+        public void Tap()
+        {
+            playerMover.Move(GameEnum.MOVE_DIR.RIGHT, true);
+        }
+
+        public void Release()
+        {
+            playerMover.Stop(true);
+        }
     }
 }
