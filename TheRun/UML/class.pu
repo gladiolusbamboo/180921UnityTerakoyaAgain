@@ -44,7 +44,7 @@ namespace Player{
         - FixedUpdate() : void
         - Move() : void
     }
-    Player --> .GameEnum
+    PlayerMover --> .GameEnum
 
     class PlayerJumper{
         + Rigidbody2D
