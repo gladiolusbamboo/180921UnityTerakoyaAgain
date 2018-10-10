@@ -40,5 +40,5 @@ sysinfo.txt
 *.mp3
 *.png
 
-!TheRun.png
-!TheTemple.png
+!TheRun*.png
+!TheTemple*.png

@@ -57,6 +57,7 @@ namespace Player{
         + ReleaseAction() : void
     }
     PlayerLeftMover ..|> IPlayerButtonAction
+    PlayerLeftMover --> UI.ButtonUsingManager
     PlayerLeftMover --> PlayerMover
 
     class PlayerRightMover{
@@ -66,6 +67,7 @@ namespace Player{
         + ReleaseAction() : void
     }
     PlayerRightMover ..|> IPlayerButtonAction
+    PlayerRightMover --> UI.ButtonUsingManager
     PlayerRightMover --> PlayerMover
 
     class PlayerMover{
