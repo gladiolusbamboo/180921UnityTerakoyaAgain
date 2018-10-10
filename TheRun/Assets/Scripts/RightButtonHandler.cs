@@ -5,16 +5,22 @@ namespace UI
 {
     public class RightButtonHandler : MonoBehaviour, IButtonHandler
     {
-        public PlayerMover playerMover;
+        public IPlayerButtonAction playerRightMover;
+
+        void Start()
+        {
+            playerRightMover = GameObject.Find("Player").GetComponent<PlayerRightMover>();
+        }
+
 
         public void Tap()
         {
-            playerMover.Move(GameEnum.MOVE_DIR.RIGHT, true);
+            playerRightMover.TapAction();// SetMoveDirection(GameEnum.MOVE_DIR.RIGHT);
         }
 
         public void Release()
         {
-            playerMover.Stop(true);
+            playerRightMover.ReleaseAction();
         }
     }
 }

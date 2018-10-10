@@ -2,14 +2,12 @@
 
 namespace Player
 {
-    public class PlayerJumper : MonoBehaviour
+    public class PlayerJumper : MonoBehaviour, IPlayerButtonAction
     {
         public Rigidbody2D rbody;
         public float jumpPower;
-
         private bool goJump;
         public LayerMask blockLayer;
-        private bool isUsingButton;
 
         private void FixedUpdate()
         {
@@ -20,30 +18,13 @@ namespace Player
             }
         }
 
-        internal void Jump(bool isButton)
+        internal void Jump()
         {
-            if (isButton)
-            {
-                if (canJump())
-                    goJump = true;
-                isUsingButton = true;
-            }
-            else
-            {
-                if (!isUsingButton && canJump())
-                    goJump = true;
-            }
+            if (CanJump())
+                goJump = true;
         }
 
-        internal void Stop(bool isButton)
-        {
-            if (isButton)
-            {
-                isUsingButton = false;
-            }
-        }
-
-        private bool canJump()
+        private bool CanJump()
         {
             var canJump =
                 (Physics2D.Linecast(
@@ -53,6 +34,16 @@ namespace Player
                     transform.position + (transform.right * 0.3f),
                     transform.position - (transform.up * 0.1f), blockLayer));
             return canJump;
+        }
+
+        public void TapAction()
+        {
+            Jump();
+        }
+
+        public void ReleaseAction()
+        {
+            // 何もしない
         }
     }
 }

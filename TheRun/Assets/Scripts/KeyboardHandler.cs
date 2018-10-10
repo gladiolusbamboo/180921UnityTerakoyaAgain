@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Player;
+using UI;
 
 namespace KeyboardInput
 {
@@ -7,6 +8,9 @@ namespace KeyboardInput
     {
         public PlayerMover playerMover;
         public PlayerJumper playerJumper;
+        public ButtonUsingManager leftButtonUsingManager;
+        public ButtonUsingManager rightButtonUsingManager;
+        public ButtonUsingManager jumpButtonUsingManager;
 
         // Update is called once per frame
         void Update()
@@ -15,23 +19,27 @@ namespace KeyboardInput
 
             if (x == 0)
             {
-                playerMover.Stop(false);
+                if(!leftButtonUsingManager.GetIsUsing() && !rightButtonUsingManager.GetIsUsing())
+                    playerMover.Stop();
             }
             else
             {
                 if (x < 0)
-                    playerMover.Move(GameEnum.MOVE_DIR.LEFT, false);
+                {
+                    if (!leftButtonUsingManager.GetIsUsing() && !rightButtonUsingManager.GetIsUsing())
+                        playerMover.SetMoveDirection(GameEnum.MOVE_DIR.LEFT);
+                }
                 else
-                    playerMover.Move(GameEnum.MOVE_DIR.RIGHT, false);
+                {
+                    if (!leftButtonUsingManager.GetIsUsing() && !rightButtonUsingManager.GetIsUsing())
+                        playerMover.SetMoveDirection(GameEnum.MOVE_DIR.RIGHT);
+                }
             }
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                playerJumper.Jump(false);
-            }
-            else
-            {
-                playerJumper.Stop(false);
+                if(!jumpButtonUsingManager.GetIsUsing())
+                    playerJumper.Jump();
             }
         }
     }

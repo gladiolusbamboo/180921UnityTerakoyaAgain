@@ -10,39 +10,72 @@ namespace UI{
     }
 
     class LeftButtonHandler{
-        + PlayerMover
+        + playerLeftMover : IPlayerButtonAction
+        - Start() : void
         + Tap() : void
         + Release() : void
     }
-    LeftButtonHandler --> Player.PlayerMover
-    LeftButtonHandler --|> IButtonHandler
-
+    LeftButtonHandler ..|> IButtonHandler
+    LeftButtonHandler --> Player.IPlayerButtonAction
+    
     class RightButtonHandler{
-        + PlayerMover
+        + playerRightMover : IPlayerButtonAction
+        - Start() : void
         + Tap() : void
         + Release() : void
     }
-    RightButtonHandler --> Player.PlayerMover
-    RightButtonHandler --|> IButtonHandler
-
+    RightButtonHandler ..|> IButtonHandler
+    RightButtonHandler --> Player.IPlayerButtonAction
+    
     class JumpButtonHandler{
-        + PlayerJumper
+        + playerJumper : IPlayerButtonAction
+        - Start() : void
         + Tap() : void
         + Release() : void
     }
-    JumpButtonHandler --> Player.PlayerJumper
-    JumpButtonHandler --|> IButtonHandler
+    JumpButtonHandler ..|> IButtonHandler
+    JumpButtonHandler --> Player.IPlayerButtonAction
+
+    class ButtonUsingManager{
+        - isUsing : bool
+        - Start() : void
+        ~ SetIsUsing(bool) : void
+        ~ GetIsUsing() : bool
+    }
 }
 
 namespace Player{
+    interface IPlayerButtonAction{
+        + TapAction() : void
+        + ReleaseAction() : void
+    }
+
+    class PlayerLeftMover{
+        + leftButtonUsingManager : ButtonUsingManager
+        + PlayerMover
+        + TapAction() : void
+        + ReleaseAction() : void
+    }
+    PlayerLeftMover ..|> IPlayerButtonAction
+    PlayerLeftMover --> PlayerMover
+
+    class PlayerRightMover{
+        + rightButtonUsingManager : ButtonUsingManager
+        + PlayerMover
+        + TapAction() : void
+        + ReleaseAction() : void
+    }
+    PlayerRightMover ..|> IPlayerButtonAction
+    PlayerRightMover --> PlayerMover
+
     class PlayerMover{
         + Rigidbody2D
         - moveDirection = GameEnum.MOVE_DIR.STOP : GameEnum.MOVE_DIR
         - moveSpeed : float
         - MOVE_SPEED = 3f : const float 
-        ~ SetMoveDirection(GameEnum.MOVE_DIR dir) : void
         - FixedUpdate() : void
-        - Move() : void
+        ~ SetMoveDirection(GameEnum.MOVE_DIR dir) : void
+        ~ Stop() : void
     }
     PlayerMover --> .GameEnum
 
@@ -51,22 +84,27 @@ namespace Player{
         + jumpPower : float
         - goJump : bool
         + blockLayer : LayerMask
-        - isUsingButton : bool
         - FixedUpdate() : void
-        ~ Jump(bool isButton) : void
-        ~ Stop(bool isButton) : void
+        ~ Jump() : void
         - canJump() : bool
+        + TapAction() : void
+        + ReleaseAction() : void
     }
+    PlayerJumper ..|>  IPlayerButtonAction
 }
 
 namespace KeyboardInput{
     class KeyboardHandler{
         + PlayerMover
         + PlayerJumper
+        + rightButtonUsingManager : ButtonUsingManager
+        + leftButtonUsingManager : ButtonUsingManager
+        + jumpButtonUsingManager : ButtonUsingManager
         - Update() : void
     }
     KeyboardHandler --> Player.PlayerMover
     KeyboardHandler --> Player.PlayerJumper
+    KeyboardHandler --> UI.ButtonUsingManager
 }
 
 @enduml

@@ -5,16 +5,21 @@ namespace UI
 {
     public class LeftButtonHandler : MonoBehaviour, IButtonHandler
     {
-        public PlayerMover playerMover;
+        public IPlayerButtonAction playerLeftMover;
+
+        void Start()
+        {
+            playerLeftMover = GameObject.Find("Player").GetComponent<PlayerLeftMover>();
+        }
 
         public void Tap()
         {
-            playerMover.Move(GameEnum.MOVE_DIR.LEFT, true);
+            playerLeftMover.TapAction();
         }
 
         public void Release()
         {
-            playerMover.Stop(true);
+            playerLeftMover.ReleaseAction();
         }
     }
 }

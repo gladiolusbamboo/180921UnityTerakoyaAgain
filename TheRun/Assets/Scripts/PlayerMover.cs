@@ -5,45 +5,11 @@ namespace Player
     public class PlayerMover : MonoBehaviour
     {
         public Rigidbody2D rbody;
-
         private GameEnum.MOVE_DIR moveDirection = GameEnum.MOVE_DIR.STOP;
-
-        private bool isUsingButton = false;
-
         private float moveSpeed;
-
         private const float MOVE_SPEED = 3f;
 
-        internal void Move(GameEnum.MOVE_DIR direction, bool isButton)
-        {
-            if(isButton)
-            {
-                moveDirection = direction;
-                isUsingButton = true;
-            }else{
-                if(!isUsingButton)
-                    moveDirection = direction;
-            }
-        }
-
-        internal void Stop(bool isButton)
-        {
-            if (isButton)
-            {
-                moveDirection = GameEnum.MOVE_DIR.STOP;
-                isUsingButton = false;
-            }else{
-                if (!isUsingButton)
-                    moveDirection = GameEnum.MOVE_DIR.STOP;
-            }
-        }
-
         private void FixedUpdate()
-        {
-            Move();
-        }
-
-        private void Move()
         {
             switch (moveDirection)
             {
@@ -61,6 +27,16 @@ namespace Player
             }
 
             rbody.velocity = new Vector2(moveSpeed, rbody.velocity.y);
+        }
+
+        internal void SetMoveDirection(GameEnum.MOVE_DIR direction)
+        {
+            moveDirection = direction;
+        }
+
+        internal void Stop()
+        {
+            moveDirection = GameEnum.MOVE_DIR.STOP;
         }
     }
 }
