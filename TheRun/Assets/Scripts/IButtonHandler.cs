@@ -1,5 +1,8 @@
-﻿internal interface IButtonHandler
+﻿namespace UI
 {
-    void Tap();
-    void Release();
+    internal interface IButtonHandler
+    {
+        void Tap();
+        void Release();
+    }
 }

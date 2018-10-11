@@ -6,4 +6,9 @@ public class GameEnum : MonoBehaviour {
         STOP,LEFT,RIGHT
     }
 
+    public enum GAME_MODE
+    {
+        PLAY,CLEAR
+    }
+
 }

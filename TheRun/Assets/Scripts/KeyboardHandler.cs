@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Player;
 using UI;
+using GameManager;
 
 namespace KeyboardInput
 {
@@ -11,10 +12,12 @@ namespace KeyboardInput
         public ButtonUsingManager leftButtonUsingManager;
         public ButtonUsingManager rightButtonUsingManager;
         public ButtonUsingManager jumpButtonUsingManager;
+        public GameModeManager gameModeManager;
 
-        // Update is called once per frame
         void Update()
         {
+            if (gameModeManager.GetGameMode() == GameEnum.GAME_MODE.CLEAR)
+                return;
             float x = Input.GetAxisRaw("Horizontal");
 
             if (x == 0)

@@ -1,6 +1,7 @@
 @startuml TheRun
 class GameEnum{
     + MOVE_DIR : enum
+    + GAME_MODE : enum
 }
 
 namespace UI{
@@ -42,6 +43,12 @@ namespace UI{
         ~ SetIsUsing(bool) : void
         ~ GetIsUsing() : bool
     }
+
+    class ButtonsActivator{
+        + buttons : GameObject
+        + SetActive(bool isActive) : void
+    }
+
 }
 
 namespace Player{
@@ -93,6 +100,18 @@ namespace Player{
         + ReleaseAction() : void
     }
     PlayerJumper ..|>  IPlayerButtonAction
+
+    class PlayerHitSensor{
+        + GameOverDisplayer
+        + GameClearDisplayer
+        + GameModeManager
+        + ButtonsActivator
+        - OnTriggerEnter2D(Collider2D collision) : void
+    }
+    PlayerHitSensor --> GameLabel.GameOverDisplayer
+    PlayerHitSensor --> GameLabel.GameClearDisplayer
+    PlayerHitSensor --> GameManager.GameModeManager
+    PlayerHitSensor --> UI.ButtonsActivator
 }
 
 namespace KeyboardInput{
@@ -102,11 +121,36 @@ namespace KeyboardInput{
         + rightButtonUsingManager : ButtonUsingManager
         + leftButtonUsingManager : ButtonUsingManager
         + jumpButtonUsingManager : ButtonUsingManager
+        + GameModeManager
         - Update() : void
     }
     KeyboardHandler --> Player.PlayerMover
     KeyboardHandler --> Player.PlayerJumper
     KeyboardHandler --> UI.ButtonUsingManager
+    KeyboardHandler --> GameManager.GameModeManager
+}
+
+namespace GameLabel{
+    class GameOverDisplayer{
+        + gameOver : GameObject
+        ~ Show() : void
+    }
+
+    class GameClearDisplayer{
+        + gameClear : GameObject
+        ~ Show() : void
+    }
+
+}
+
+namespace GameManager{
+    class GameModeManager{
+        - gameMode : GameEnum.GAME_MODE
+        - Start() : void
+        ~ GetGameMode() : GameEnum.GAME_MODE
+        ~ SetGameMode(GameEnum.GAME_MODE gameMode) : void
+    }
+    GameModeManager --> .GameEnum
 }
 
 @enduml
