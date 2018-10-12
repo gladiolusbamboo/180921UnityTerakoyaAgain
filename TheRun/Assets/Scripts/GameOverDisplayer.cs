@@ -2,11 +2,11 @@
 
 namespace GameLabel
 {
-    public class GameOverDisplayer : MonoBehaviour
+    public class GameOverDisplayer : MonoBehaviour, ILabelDisplayer
     {
         public GameObject gameOver;
 
-        internal void Show()
+        public void Show()
         {
             gameOver.SetActive(true);
         }

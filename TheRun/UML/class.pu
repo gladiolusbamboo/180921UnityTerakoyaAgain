@@ -102,16 +102,15 @@ namespace Player{
     PlayerJumper ..|>  IPlayerButtonAction
 
     class PlayerHitSensor{
-        + GameOverDisplayer
-        + GameClearDisplayer
         + GameModeManager
-        + ButtonsActivator
         - OnTriggerEnter2D(Collider2D collision) : void
     }
-    PlayerHitSensor --> GameLabel.GameOverDisplayer
-    PlayerHitSensor --> GameLabel.GameClearDisplayer
     PlayerHitSensor --> GameManager.GameModeManager
-    PlayerHitSensor --> UI.ButtonsActivator
+    PlayerHitSensor --> HitEventHandler.IHitEventHandler
+
+    class PlayerDestroyer{
+        ~ Destroy() : void
+    }
 }
 
 namespace KeyboardInput{
@@ -131,16 +130,21 @@ namespace KeyboardInput{
 }
 
 namespace GameLabel{
+    interface ILabelDisplayer{
+        + Show() : void
+    }
+
     class GameOverDisplayer{
         + gameOver : GameObject
         ~ Show() : void
     }
+    GameOverDisplayer ..|> ILabelDisplayer
 
     class GameClearDisplayer{
         + gameClear : GameObject
         ~ Show() : void
     }
-
+    GameClearDisplayer ..|> ILabelDisplayer
 }
 
 namespace GameManager{
@@ -152,5 +156,34 @@ namespace GameManager{
     }
     GameModeManager --> .GameEnum
 }
+
+namespace HitEventHandler{
+    interface IHitEventHandler{
+        - DoEvent() : void
+    }
+
+    class GameOverHandler{
+        ~ gameOverDisplayer : ILabelDisplayer
+        + PlayerDestroyer
+        - Start() : void
+        + DoEvent() : void
+    }
+    GameOverHandler ..|> IHitEventHandler
+    GameOverHandler --> GameLabel.ILabelDisplayer
+    GameOverHandler --> Player.PlayerDestroyer
+
+    class GameClearHandler{
+        ~ gameClearDisplayer : ILabelDisplayer
+        + ButtonsActivator
+        + GameModeManager
+        - Start() : void
+        + DoEvent() : void
+    }
+    GameClearHandler ..|> IHitEventHandler
+    GameClearHandler --> GameLabel.ILabelDisplayer
+    GameClearHandler --> UI.ButtonsActivator
+    GameClearHandler --> GameManager.GameModeManager
+}
+
 
 @enduml

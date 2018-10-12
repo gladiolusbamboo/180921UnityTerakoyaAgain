@@ -2,11 +2,11 @@
 
 namespace GameLabel
 {
-    public class GameClearDisplayer : MonoBehaviour
+    public class GameClearDisplayer : MonoBehaviour, ILabelDisplayer
     {
         public GameObject gameClear;
 
-        internal void Show()
+        public void Show()
         {
             gameClear.SetActive(true);
         }

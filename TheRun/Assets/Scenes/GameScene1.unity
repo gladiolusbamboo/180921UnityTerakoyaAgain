@@ -887,6 +887,7 @@ GameObject:
   m_Component:
   - component: {fileID: 427954553}
   - component: {fileID: 427954554}
+  - component: {fileID: 427954555}
   m_Layer: 0
   m_Name: OutZone
   m_TagString: Trap
@@ -932,6 +933,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &427954555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 427954552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 603007ca70f91c448ac0ea1b0c4bd4ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameOverDisplayer: {fileID: 329698147}
+  playerDestroyer: {fileID: 1129320847}
 --- !u!1 &432192654
 GameObject:
   m_ObjectHideFlags: 0
@@ -2763,6 +2777,7 @@ GameObject:
   - component: {fileID: 1129320844}
   - component: {fileID: 1129320845}
   - component: {fileID: 1129320846}
+  - component: {fileID: 1129320847}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2950,10 +2965,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 767180ca3ec727544835ee3c79e56611, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameOverDisplayer: {fileID: 329698147}
   gameClearDisplayer: {fileID: 615056308}
   gameModeManager: {fileID: 544016470}
   buttonsActivator: {fileID: 579756248}
+--- !u!114 &1129320847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1129320836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d28c47cc43ad20d44bcb757380041053, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1138554306
 Prefab:
   m_ObjectHideFlags: 0
