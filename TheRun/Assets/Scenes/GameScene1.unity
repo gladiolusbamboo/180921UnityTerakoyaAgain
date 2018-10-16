@@ -944,7 +944,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 603007ca70f91c448ac0ea1b0c4bd4ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameOverDisplayer: {fileID: 329698147}
   playerDestroyer: {fileID: 1129320847}
 --- !u!1 &432192654
 GameObject:
@@ -1291,6 +1290,7 @@ GameObject:
   - component: {fileID: 524179712}
   - component: {fileID: 524179714}
   - component: {fileID: 524179713}
+  - component: {fileID: 524179715}
   m_Layer: 0
   m_Name: Goal
   m_TagString: Goal
@@ -1378,6 +1378,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!114 &524179715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 524179711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 572e61d3ac6351b4c86f29fe914d25e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonsActivator: {fileID: 579756248}
+  gameModeManager: {fileID: 544016470}
 --- !u!1001 &524299443
 Prefab:
   m_ObjectHideFlags: 0
@@ -2965,9 +2978,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 767180ca3ec727544835ee3c79e56611, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameClearDisplayer: {fileID: 615056308}
   gameModeManager: {fileID: 544016470}
-  buttonsActivator: {fileID: 579756248}
 --- !u!114 &1129320847
 MonoBehaviour:
   m_ObjectHideFlags: 0

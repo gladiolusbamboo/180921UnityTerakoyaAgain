@@ -18,10 +18,15 @@ namespace Player
             }
         }
 
-        internal void Jump()
+        internal void ButtonJump()
         {
             if (CanJump())
-                goJump = true;
+                Jump();
+        }
+
+        internal void Jump()
+        {
+            goJump = true;
         }
 
         private bool CanJump()
@@ -38,7 +43,7 @@ namespace Player
 
         public void TapAction()
         {
-            Jump();
+            ButtonJump();
         }
 
         public void ReleaseAction()

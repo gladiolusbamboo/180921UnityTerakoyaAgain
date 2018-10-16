@@ -25,7 +25,6 @@ namespace Player
                     transform.localScale = new Vector2(1, 1);
                     break;
             }
-
             rbody.velocity = new Vector2(moveSpeed, rbody.velocity.y);
         }
 

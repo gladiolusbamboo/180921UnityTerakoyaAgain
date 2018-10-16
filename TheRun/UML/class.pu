@@ -94,6 +94,7 @@ namespace Player{
         - goJump : bool
         + blockLayer : LayerMask
         - FixedUpdate() : void
+        ~ ButtonJump() : void
         ~ Jump() : void
         - canJump() : bool
         + TapAction() : void
@@ -183,6 +184,31 @@ namespace HitEventHandler{
     GameClearHandler --> GameLabel.ILabelDisplayer
     GameClearHandler --> UI.ButtonsActivator
     GameClearHandler --> GameManager.GameModeManager
+    GameClearHandler --> .GameEnum
+}
+
+namespace Enemy{
+    class EnemyMover{
+        - moveDirection : GameEnum.MOVE_DIR
+        + Rigidbody2D
+        + moveSpeed : float
+        + blockLayer : LayerMask
+        - Start() : void
+        - FixedUpdate() : void
+    }
+    EnemyMover --> .GameEnum
+
+    class EnemyHitHandler{
+        + player : Transform
+        + PlayerJumper
+        + PlayerDestroyer
+        ~ gameOverDisplayer : ILabelDisplayer
+        - Start() : void
+        + DoEvent() : void
+    }
+    EnemyHitHandler ..|> HitEventHandler.IHitEventHandler
+    EnemyHitHandler --> Player.PlayerJumper
+    EnemyHitHandler --> Player.PlayerDestroyer
 }
 
 
