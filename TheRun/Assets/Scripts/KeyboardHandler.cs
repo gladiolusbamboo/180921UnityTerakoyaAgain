@@ -42,7 +42,7 @@ namespace KeyboardInput
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 if(!jumpButtonUsingManager.GetIsUsing())
-                    playerJumper.Jump();
+                    playerJumper.ButtonJump();
             }
         }
     }

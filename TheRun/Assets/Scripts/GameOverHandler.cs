@@ -2,7 +2,7 @@
 using Player;
 using UnityEngine;
 
-namespace HitEventHandler
+namespace GameScene
 {
     public class GameOverHandler : MonoBehaviour, IHitEventHandler
     {

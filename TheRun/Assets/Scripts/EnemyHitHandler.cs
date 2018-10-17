@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
-using HitEventHandler;
 using Player;
-using GameLabel;
 
 namespace Enemy {
     public class EnemyHitHandler : MonoBehaviour, IHitEventHandler{

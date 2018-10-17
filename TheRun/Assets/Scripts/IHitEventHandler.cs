@@ -1,7 +1,4 @@
-﻿namespace HitEventHandler
+﻿public interface IHitEventHandler
 {
-    internal interface IHitEventHandler
-    {
-        void DoEvent();
-    }
+    void DoEvent();
 }

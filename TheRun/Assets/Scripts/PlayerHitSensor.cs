@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using GameManager;
-using HitEventHandler;
 
 namespace Player
 {

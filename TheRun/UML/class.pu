@@ -4,6 +4,14 @@ class GameEnum{
     + GAME_MODE : enum
 }
 
+interface IHitEventHandler{
+    + DoEvent() : void
+}
+
+interface ILabelDisplayer{
+    + Show() : void
+}
+
 namespace UI{
     interface IButtonHandler{
         + Tap() : void
@@ -107,7 +115,8 @@ namespace Player{
         - OnTriggerEnter2D(Collider2D collision) : void
     }
     PlayerHitSensor --> GameManager.GameModeManager
-    PlayerHitSensor --> HitEventHandler.IHitEventHandler
+    PlayerHitSensor --> .IHitEventHandler
+    PlayerHitSensor --> .GameEnum
 
     class PlayerDestroyer{
         ~ Destroy() : void
@@ -130,22 +139,41 @@ namespace KeyboardInput{
     KeyboardHandler --> GameManager.GameModeManager
 }
 
-namespace GameLabel{
-    interface ILabelDisplayer{
-        + Show() : void
-    }
-
+namespace GameScene{
     class GameOverDisplayer{
         + gameOver : GameObject
         ~ Show() : void
     }
-    GameOverDisplayer ..|> ILabelDisplayer
+    GameOverDisplayer ..|> .ILabelDisplayer
 
     class GameClearDisplayer{
         + gameClear : GameObject
         ~ Show() : void
     }
-    GameClearDisplayer ..|> ILabelDisplayer
+    GameClearDisplayer ..|> .ILabelDisplayer
+
+        class GameOverHandler{
+        ~ gameOverDisplayer : ILabelDisplayer
+        + PlayerDestroyer
+        - Start() : void
+        + DoEvent() : void
+    }
+    GameOverHandler ..|> .IHitEventHandler
+    GameOverHandler --> .ILabelDisplayer
+    GameOverHandler --> Player.PlayerDestroyer
+
+    class GameClearHandler{
+        ~ gameClearDisplayer : ILabelDisplayer
+        + ButtonsActivator
+        + GameModeManager
+        - Start() : void
+        + DoEvent() : void
+    }
+    GameClearHandler ..|> .IHitEventHandler
+    GameClearHandler --> .ILabelDisplayer
+    GameClearHandler --> UI.ButtonsActivator
+    GameClearHandler --> GameManager.GameModeManager
+    GameClearHandler --> .GameEnum
 }
 
 namespace GameManager{
@@ -156,35 +184,6 @@ namespace GameManager{
         ~ SetGameMode(GameEnum.GAME_MODE gameMode) : void
     }
     GameModeManager --> .GameEnum
-}
-
-namespace HitEventHandler{
-    interface IHitEventHandler{
-        - DoEvent() : void
-    }
-
-    class GameOverHandler{
-        ~ gameOverDisplayer : ILabelDisplayer
-        + PlayerDestroyer
-        - Start() : void
-        + DoEvent() : void
-    }
-    GameOverHandler ..|> IHitEventHandler
-    GameOverHandler --> GameLabel.ILabelDisplayer
-    GameOverHandler --> Player.PlayerDestroyer
-
-    class GameClearHandler{
-        ~ gameClearDisplayer : ILabelDisplayer
-        + ButtonsActivator
-        + GameModeManager
-        - Start() : void
-        + DoEvent() : void
-    }
-    GameClearHandler ..|> IHitEventHandler
-    GameClearHandler --> GameLabel.ILabelDisplayer
-    GameClearHandler --> UI.ButtonsActivator
-    GameClearHandler --> GameManager.GameModeManager
-    GameClearHandler --> .GameEnum
 }
 
 namespace Enemy{
@@ -206,10 +205,49 @@ namespace Enemy{
         - Start() : void
         + DoEvent() : void
     }
-    EnemyHitHandler ..|> HitEventHandler.IHitEventHandler
+    EnemyHitHandler ..|> .IHitEventHandler
     EnemyHitHandler --> Player.PlayerJumper
     EnemyHitHandler --> Player.PlayerDestroyer
 }
 
+namespace Orb{
+    class OrbDestroyer{
+        ~ Destroy() : void
+    }
 
+    class OrbHitHandler{
+        + OrbDestroyer
+        + OrbManager
+        + ScoreManager
+        + DoEvent() : void
+    }
+    OrbHitHandler --> OrbDestroyer
+    OrbHitHandler --> OrbManager
+    OrbHitHandler --> Score.ScoreManager
+    OrbHitHandler ..|> .IHitEventHandler
+
+    class OrbManager{
+        + ORB_POINT : int
+        ~ GetOrbPoint() : int
+    }
+
+}
+
+namespace Score{
+    class ScoreManager{
+        + int MAX_SCORE = 999999
+        - int score = 0
+        ~ AddScore(int point) : void
+        ~ GetScore() : int
+    }
+
+    class ScoreDisplayer{
+        + ScoreManager
+        - displayScore = 0 : int
+        + textComponent : Text
+        - Update() : void
+        - RefreshScore() : void
+    }
+    ScoreDisplayer --> ScoreManager : 監視
+}
 @enduml

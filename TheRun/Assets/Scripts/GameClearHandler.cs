@@ -3,7 +3,7 @@ using GameManager;
 using UI;
 using UnityEngine;
 
-namespace HitEventHandler
+namespace GameScene
 {
     public class GameClearHandler : MonoBehaviour, IHitEventHandler
     {

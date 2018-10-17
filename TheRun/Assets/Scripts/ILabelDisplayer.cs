@@ -1,7 +1,4 @@
-﻿namespace GameLabel
+﻿public interface ILabelDisplayer
 {
-    internal interface ILabelDisplayer
-    {
-        void Show();
-    }
+    void Show();
 }
