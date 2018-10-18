@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace Orb
+namespace Enemy
 {
-    public class OrbDestroyer : MonoBehaviour
+    public class EnemyDestroyer : MonoBehaviour
     {
         internal void Destroy()
         {

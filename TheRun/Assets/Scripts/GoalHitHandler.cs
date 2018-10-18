@@ -1,11 +1,11 @@
-﻿using GameLabel;
-using GameManager;
+﻿using GameManager;
+using Player;
 using UI;
 using UnityEngine;
 
-namespace GameScene
+namespace Goal
 {
-    public class GameClearHandler : MonoBehaviour, IHitEventHandler
+    public class GoalHitHandler : MonoBehaviour, IHitEventHandler
     {
         internal ILabelDisplayer gameClearDisplayer;
         public ButtonsActivator buttonsActivator;

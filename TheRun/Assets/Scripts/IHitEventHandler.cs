@@ -1,4 +1,7 @@
-﻿public interface IHitEventHandler
+﻿namespace Player
 {
-    void DoEvent();
+    public interface IHitEventHandler
+    {
+        void DoEvent();
+    }
 }

@@ -1,10 +1,9 @@
-﻿using GameLabel;
-using Player;
+﻿using Player;
 using UnityEngine;
 
-namespace GameScene
+namespace OutZone
 {
-    public class GameOverHandler : MonoBehaviour, IHitEventHandler
+    public class OutZoneHitHandler : MonoBehaviour, IHitEventHandler
     {
         internal ILabelDisplayer gameOverDisplayer;
         public PlayerDestroyer playerDestroyer;

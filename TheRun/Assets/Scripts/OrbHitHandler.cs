@@ -1,4 +1,5 @@
-﻿using Score;
+﻿using Player;
+using Score;
 using UnityEngine;
 
 namespace Orb

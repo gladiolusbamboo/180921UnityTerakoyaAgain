@@ -3,10 +3,19 @@ using UnityEngine;
 
 namespace Score
 {
-    public class ScoreManager : MonoBehaviour
+    public class ScoreManager : SingletonMonoBehaviour<ScoreManager>
     {
         public int MAX_SCORE = 999999;
         private int score = 0;
+
+        public void Awake()
+        {
+            if (this != Instance)
+            {
+                Destroy(this);
+                return;
+            }
+        }
 
         internal void AddScore(int point)
         {

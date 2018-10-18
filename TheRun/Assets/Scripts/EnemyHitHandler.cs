@@ -6,6 +6,7 @@ namespace Enemy {
         public Transform player;
         public PlayerJumper playerJumper;
         public PlayerDestroyer playerDestroyer;
+        public EnemyDestroyer enemyDestroyer;
         internal ILabelDisplayer gameOverDisplayer;
 
         private void Start()
@@ -18,7 +19,7 @@ namespace Enemy {
             if (player.position.y > transform.position.y + 0.4f)
             {
                 playerJumper.Jump();
-                Destroy(this.gameObject);
+                enemyDestroyer.Destroy();
             }
             else
             {
