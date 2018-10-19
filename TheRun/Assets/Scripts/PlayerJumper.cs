@@ -9,9 +9,11 @@ namespace Player
         public float jumpPower;
         private bool goJump;
         public LayerMask blockLayer;
-
+        public Animator animator;
+        
         private void FixedUpdate()
         {
+            animator.SetBool("onGround", CanJump());
             if (goJump)
             {
                 rbody.AddForce(Vector2.up * jumpPower);

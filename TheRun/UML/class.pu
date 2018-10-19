@@ -103,6 +103,7 @@ namespace Player{
         + jumpPower : float
         - goJump : bool
         + blockLayer : LayerMask
+        + Animator
         - FixedUpdate() : void
         ~ ButtonJump() : void
         ~ Jump() : void

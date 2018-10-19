@@ -8,7 +8,7 @@ namespace Score
         public int MAX_SCORE = 999999;
         private int score = 0;
 
-        public void Awake()
+        private void Awake()
         {
             if (this != Instance)
             {
