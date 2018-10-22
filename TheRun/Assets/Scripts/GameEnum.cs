@@ -8,7 +8,11 @@ public class GameEnum : MonoBehaviour {
 
     public enum GAME_MODE
     {
-        PLAY,CLEAR
+        PLAY,CLEAR,GAMEOVER
     }
 
+    public enum ENEMY_SE
+    {
+        DEFEAT, MISS
+    }
 }

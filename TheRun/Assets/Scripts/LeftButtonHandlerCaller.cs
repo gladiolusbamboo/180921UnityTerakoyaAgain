@@ -3,21 +3,21 @@ using UnityEngine;
 
 namespace UI
 {
-    public class LeftButtonHandler : MonoBehaviour, IButtonHandler
+    public class LeftButtonHandlerCaller : MonoBehaviour, IUIButtonHandlerCaller
     {
-        public IPlayerButtonAction playerLeftMover;
+        public IUIButtonHandler playerLeftMover;
 
         void Start()
         {
             playerLeftMover = GameObject.Find("Player").GetComponent<PlayerLeftMover>();
         }
 
-        public void Tap()
+        public void CallTapHandler()
         {
             playerLeftMover.TapAction();
         }
 
-        public void Release()
+        public void CallReleaseHandler()
         {
             playerLeftMover.ReleaseAction();
         }

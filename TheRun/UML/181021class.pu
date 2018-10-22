@@ -1,0 +1,394 @@
+@startuml 181021class
+interface ILabelDisplayer{
+    + Show() : void
+}
+
+class GameEnum{
+    + MOVE_DIR : enum
+    + GAME_MODE : enum
+    + ENEMY_SE : enum
+}
+
+namespace UI{
+    interface IUIButtonHandlerCaller{
+        + CallTapHandler() : void
+        + CallReleaseHandler() : void
+    }
+
+    interface IUIButtonHandler{
+        + TapAction() : void
+        + ReleaseAction() : void
+    }
+
+    class ButtonsActivator{
+        + buttons : GameObject
+        + SetActive(bool isActive) : void
+    }
+
+    class ButtonUsingManager{
+        - isUsing : bool
+        - Start() : void
+        ~ SetIsUsing(bool isUsing) : void
+        ~ GetIsUsing() : bool
+    }
+        
+    class LeftButtonHandlerCaller{
+        + playerLeftMover : IUIButtonHandler
+        - Start() : void
+        + CallTapHandler() : void
+        + CallReleaseHandler() : void
+    }
+    LeftButtonHandlerCaller .u.|> IUIButtonHandlerCaller
+    LeftButtonHandlerCaller -d-> IUIButtonHandler
+
+    class RightButtonHandlerCaller{
+        + playerRightMover : IUIButtonHandler
+        - Start() : void
+        + CallTapHandler() : void
+        + CallReleaseHandler() : void
+    }
+    RightButtonHandlerCaller .u.|> IUIButtonHandlerCaller
+    RightButtonHandlerCaller --> IUIButtonHandler
+
+    class JumpButtonHandlerCaller{
+        + playerJumper : IUIButtonHandler
+        - Start() : void
+        + CallTapHandler() : void
+        + CallReleaseHandler() : void
+    }
+    JumpButtonHandlerCaller .u.|> IUIButtonHandlerCaller
+    JumpButtonHandlerCaller -d-> IUIButtonHandler
+}
+
+namespace KeyboardInput{
+    class KeyboardHandlerCaller{
+        + PlayerMover
+        + PlayerJumper
+        + leftButtonUsingManager : ButtonUsingManager
+        + rightButtonUsingManager : ButtonUsingManager
+        + jumpButtonUsingManager : ButtonUsingManager
+        + GameModeManager
+        + PlayerMoveAnimator
+        + PlayerJumpSEPlayer
+        - Update() : void
+    }
+    KeyboardHandlerCaller --> Player.PlayerMover
+    KeyboardHandlerCaller --> Player.PlayerJumper
+    KeyboardHandlerCaller --> UI.ButtonUsingManager
+    KeyboardHandlerCaller --> GameManager.GameModeManager
+    KeyboardHandlerCaller --> Player.PlayerMoveAnimator
+    KeyboardHandlerCaller --> Player.PlayerJumpSEPlayer
+}
+
+namespace Player{
+    interface IPlayerHitHandlerCaller{
+        + CallHandler() : void
+    }
+
+    interface IPlayerMissAnimator{
+        + Animate() : void
+    }
+
+    class PlayerDestroyer{
+        ~ Destroy() : void
+    }
+
+    class PlayerHitSensor{
+        + GameModeManager
+        - OnTriggerEnter2D(Collider2D collision) : void
+    }
+    PlayerHitSensor -d-> IPlayerHitHandlerCaller
+
+    class PlayerJumper{
+        + Rigidbody2D
+        + jumpPower : float
+        - goJump : bool
+        + blockLayer : LayerMask
+        + PlayerMoveAnimator
+        + PlayerJumpSEPlayer
+        - FixedUpdate() : void
+        ~ ButtonJump() : void
+        ~ Jump() : void
+        - CanJump() : vool
+        + TapAction() : void
+        + ReleaseAction() : void
+    }
+    PlayerJumper ..|> UI.IUIButtonHandler
+    PlayerJumper --> PlayerMoveAnimator
+    PlayerJumper --> PlayerJumpSEPlayer
+
+    class PlayerLeftMover{
+        + PlayerMover
+        + leftButtonUsingManager : ButtonUsingManager
+        + PlayerMoveAnimator
+        + TapAction() : void
+        + ReleaseAction() : void
+    }
+    PlayerLeftMover ..|> UI.IUIButtonHandler
+    PlayerLeftMover --> PlayerMover
+    PlayerLeftMover --> UI.ButtonUsingManager
+    PlayerLeftMover --> PlayerMoveAnimator
+
+    class PlayerRightMover{
+        + PlayerMover
+        + ButtonUsingManager
+        + PlayerMoveAnimator
+        + TapAction() : void
+        + ReleaseAction() : void
+    }
+    PlayerRightMover .u.|> UI.IUIButtonHandler
+    PlayerRightMover --> PlayerMover
+    PlayerRightMover --> UI.ButtonUsingManager
+    PlayerRightMover --> PlayerMoveAnimator
+
+    class PlayerMoveAnimator{
+        + Animator
+        + PlayerJumper
+        ~ Jump() : void
+        ~ Stop() : void
+        ~ Move() : void
+    }
+    PlayerMoveAnimator --> PlayerJumper : ジャンプできるか判定
+
+    class PlayerMover{
+        + Rigidbody2D
+        - moveDirection = GameEnum.MOVE_DIR.STOP : GameEnum.MOVE_DIR
+        - moveSpeed : float
+        - const MOVE_SPEED = 3f : float
+        - FixedUpdate()
+        ~ SetMoveDirection(GameEnum.MOVE_DIR direction) : void
+        ~ Stop() : void
+    }
+    PlayerMover -d-> .GameEnum
+
+    class PlayerEnemyHitAnimator{
+        + CircleCollider2D
+        + BoxCollider2D
+        + PlayerDestroyer
+        + Animate() : void
+    }
+    PlayerEnemyHitAnimator .u.|> IPlayerMissAnimator
+    PlayerEnemyHitAnimator --> PlayerDestroyer
+
+    class PlayerOutZoneAnimator{
+        + CircleCollider2D
+        + BoxCollider2D
+        + PlayerDestroyer
+        + Animate() : void
+    }
+    PlayerOutZoneAnimator .u.|> IPlayerMissAnimator
+    PlayerOutZoneAnimator --> PlayerDestroyer
+
+    class PlayerJumpSEPlayer{
+        + AudioSource
+        + se : AudioClip
+        + PlayerJumper
+        ~ Play() : void
+    }
+    PlayerJumpSEPlayer --> PlayerJumper : ジャンプできるか判定
+}
+
+namespace Enemy{
+    class EnemyDestroyAnimator{
+        + CircleCollider2D
+        + BoxCollider2D
+        + EnemyDestroyer
+        ~ Animate() : void
+    }
+    EnemyDestroyAnimator --> EnemyDestroyer : アニメ終了コールバック
+
+    class EnemyDestroyer{
+        ~ Destroy() : void
+    }
+    
+    class EnemyHitHandlerCaller{
+        + player : Transform
+        + PlayerJumper
+        ~ playerEnemyHitAnimator : IPlayerMissAnimator
+        + EnemyDestroyAnimator
+        + GameModeManager
+        ~ gameOverDisplayer : ILabelDisplayer
+        + ScoreManager
+        + ENEMY_SCORE : int
+        + EnemySEPlayer
+        - Start() : void
+        + CallHandler() : void
+    }
+    EnemyHitHandlerCaller .u.|> Player.IPlayerHitHandlerCaller
+    EnemyHitHandlerCaller -u-> Player.PlayerJumper
+    EnemyHitHandlerCaller -u-> Player.IPlayerMissAnimator
+    EnemyHitHandlerCaller --> EnemyDestroyAnimator
+    EnemyHitHandlerCaller -d-> GameManager.GameModeManager
+    EnemyHitHandlerCaller -d-> .ILabelDisplayer
+    EnemyHitHandlerCaller --> Score.ScoreManager
+    EnemyHitHandlerCaller --> EnemySEPlayer
+
+    class EnemyMover{
+        - moveDirection : GameEnum.MOVE_DIR
+        + Rigidbody2D
+        + moveSpeed : float
+        + blockLayer : LayerMask
+        - Start() : void
+        - FixedUpdate() : void        
+    }
+    EnemyMover -d-> .GameEnum
+
+    class EnemySEPlayer{
+        + AudioSource
+        + seDefeat : AudioClip
+        + seMiss : AudioClip
+        ~ Play(GameEnum.ENEMY_SE se) : void
+    }
+}
+
+namespace Needle{
+    class NeedleHitHandlerCaller{
+        ~ gameOverDisplayer : ILabelDisplayer
+        ~ playerEnemyHitAnimator : IPlayerMissAnimator
+        + GameModeManager 
+        + NeedleSEPlayer
+        - Start() : void
+        + CallHandler() : void
+    }
+    NeedleHitHandlerCaller .u.|> Player.IPlayerHitHandlerCaller
+    NeedleHitHandlerCaller -d-> .ILabelDisplayer
+    NeedleHitHandlerCaller -d-> Player.IPlayerMissAnimator
+    NeedleHitHandlerCaller -d-> GameManager.GameModeManager
+    NeedleHitHandlerCaller --> NeedleSEPlayer
+
+    class NeedleSEPlayer{
+        + AudioSource
+        + se : AudioClip
+        + Play() : void
+    }
+}
+
+namespace OutZone{
+    class OutZoneHitHandlerCaller{
+        ~ gameOverDisplayer : ILabelDisplayer
+        ~ playerOutZoneAnimator : IPlayerMissAnimator
+        + GameModeManager
+        + OutZoneSEPlayer        
+        - Start() : void
+        + CallHandler() : void
+    }
+    OutZoneHitHandlerCaller .u.|> Player.IPlayerHitHandlerCaller
+    OutZoneHitHandlerCaller -d-> .ILabelDisplayer
+    OutZoneHitHandlerCaller -u-> Player.IPlayerMissAnimator
+    OutZoneHitHandlerCaller -d-> GameManager.GameModeManager
+    OutZoneHitHandlerCaller --> OutZoneSEPlayer
+
+    class OutZoneSEPlayer{
+        + AudioSource
+        + se : AudioClip
+        + Play() : void
+    }
+}
+
+namespace Orb{
+    class OrbDestroyAnimator{
+        + CircleCollider2D
+        + OrbDestroyer
+        + SpriteRenderer
+        ~ Animate() : void
+    }
+    OrbDestroyAnimator --> OrbDestroyer : アニメ終了コールバック
+
+    class OrbDestroyer{
+        ~ Destroy() : void
+    }
+
+    class OrbHitHandlerCaller{
+        + OrbDestroyAnimator
+        + OrbManager
+        + ScoreManager
+        + OrbSEPlayer
+        - gotFlag = false : bool
+        + CallHandler() : void
+    }
+    OrbHitHandlerCaller .u.|> Player.IPlayerHitHandlerCaller
+    OrbHitHandlerCaller -d-> OrbDestroyAnimator
+    OrbHitHandlerCaller -d-> OrbManager
+    OrbHitHandlerCaller -d-> Score.ScoreManager
+    OrbHitHandlerCaller --> OrbSEPlayer
+
+    class OrbManager{
+        + ORB_POINT : int
+        ~ GetOrbPoint() : int
+    }
+
+    class OrbSEPlayer{
+        + AudioSource
+        + se : AudioClip
+        ~ Play() : void
+    }
+}
+
+namespace Goal{    
+    class GoalHitHandlerCaller{
+        ~ gameClearDisplayer : ILabelDisplayer
+        + ButtonsActivator
+        + GameModeManager
+        + GoalSEPlayer
+        - Start() : void
+        + CallHandler() : void
+    }
+    GoalHitHandlerCaller .u.|> Player.IPlayerHitHandlerCaller
+    GoalHitHandlerCaller -u-> UI.ButtonsActivator
+    GoalHitHandlerCaller -d-> GameManager.GameModeManager
+    GoalHitHandlerCaller -d-> .ILabelDisplayer
+    GoalHitHandlerCaller --> GoalSEPlayer
+
+    class GoalSEPlayer{
+        + AudioSource
+        + se : AudioClip
+        ~ Play() : void
+    }
+}
+
+namespace GameLabel{    
+    class GameClearDisplayer{
+        + gameClear : GameObject
+        + Show() : void        
+    }
+    GameClearDisplayer .u.|> .ILabelDisplayer
+
+    
+    class GameOverDisplayer{
+        + gameOver : GameObject
+        + Show() : void
+    }
+    GameOverDisplayer .u.|> .ILabelDisplayer
+}
+
+namespace GameManager{
+    class GameModeManager{
+        - gameMode : GameEnum.GAME_MODE
+        - Start() : void
+        ~ GetGameMode() : GameEnum.GAME_MODE
+        ~ SetGameMode(GameEnum.GAME_MODE gameMode) : void
+    }
+    GameModeManager -d-> .GameEnum
+}
+
+namespace Score{
+    class ScoreDisplayer{
+        + ScoreManager
+        - displayScore = 0 : int
+        + textComponent : Text
+        - Update() : void
+        - RefreshScore() : void
+    }
+    ScoreDisplayer --> ScoreManager : 監視
+
+    class ScoreManager{
+        + MAX_SCORE = 999999 : int
+        - score = 0 : int
+        - Awake() : void
+        ~ AddScore(int point) : void
+        ~ GetScore() : int
+    }
+
+}
+
+@enduml

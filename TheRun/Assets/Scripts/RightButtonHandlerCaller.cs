@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace UI
 {
-    public class RightButtonHandler : MonoBehaviour, IButtonHandler
+    public class RightButtonHandlerCaller : MonoBehaviour, IUIButtonHandlerCaller
     {
-        public IPlayerButtonAction playerRightMover;
+        public IUIButtonHandler playerRightMover;
 
         void Start()
         {
@@ -13,12 +13,12 @@ namespace UI
         }
 
 
-        public void Tap()
+        public void CallTapHandler()
         {
             playerRightMover.TapAction();// SetMoveDirection(GameEnum.MOVE_DIR.RIGHT);
         }
 
-        public void Release()
+        public void CallReleaseHandler()
         {
             playerRightMover.ReleaseAction();
         }

@@ -3,21 +3,21 @@ using Player;
 
 namespace UI
 {
-    public class JumpButtonHandler : MonoBehaviour, IButtonHandler
+    public class JumpButtonHandlerCaller : MonoBehaviour, IUIButtonHandlerCaller
     {
-        public IPlayerButtonAction playerJumper;
+        public IUIButtonHandler playerJumper;
 
         void Start()
         {
             playerJumper = GameObject.Find("Player").GetComponent<PlayerJumper>();
         }
 
-        public void Tap()
+        public void CallTapHandler()
         {
             playerJumper.TapAction();
         }
 
-        public void Release()
+        public void CallReleaseHandler()
         {
             playerJumper.ReleaseAction();
         }

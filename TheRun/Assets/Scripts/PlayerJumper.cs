@@ -3,17 +3,17 @@ using UnityEngine;
 
 namespace Player
 {
-    public class PlayerJumper : MonoBehaviour, IPlayerButtonAction
+    public class PlayerJumper : MonoBehaviour, IUIButtonHandler
     {
         public Rigidbody2D rbody;
         public float jumpPower;
         private bool goJump;
         public LayerMask blockLayer;
-        public Animator animator;
-        
+        public PlayerMoveAnimator playerMoveAnimator;
+        public PlayerJumpSEPlayer playerJumpSEPlayer;
+
         private void FixedUpdate()
         {
-            animator.SetBool("onGround", CanJump());
             if (goJump)
             {
                 rbody.AddForce(Vector2.up * jumpPower);
@@ -32,7 +32,7 @@ namespace Player
             goJump = true;
         }
 
-        private bool CanJump()
+        internal bool CanJump()
         {
             var canJump =
                 (Physics2D.Linecast(
@@ -47,6 +47,8 @@ namespace Player
         public void TapAction()
         {
             ButtonJump();
+            playerMoveAnimator.Jump();
+            playerJumpSEPlayer.Play();
         }
 
         public void ReleaseAction()

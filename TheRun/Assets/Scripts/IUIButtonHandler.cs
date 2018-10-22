@@ -1,6 +1,6 @@
 ﻿namespace UI
 {
-    public interface IPlayerButtonAction
+    public interface IUIButtonHandler
     {
         void TapAction();
         void ReleaseAction();

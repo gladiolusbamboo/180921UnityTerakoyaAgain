@@ -12,9 +12,9 @@ namespace Player
             if (gameModeManager.GetGameMode() == GameEnum.GAME_MODE.CLEAR)
                 return;
             var hitObject = collision.gameObject;
-            var eventHandler = hitObject.GetComponent<IHitEventHandler>();
-            if (eventHandler != null)
-                eventHandler.DoEvent();
+            var handlercaller = hitObject.GetComponent<IPlayerHitHandlerCaller>();
+            if (handlercaller != null)
+                handlercaller.CallHandler();
         }
     }
 }

@@ -4,18 +4,12 @@ class GameEnum{
     + GAME_MODE : enum
 }
 
-namespace Player{
-    interface IHitEventHandler{
-        + DoEvent() : void
-    }
-}
-
 interface ILabelDisplayer{
     + Show() : void
 }
 
 namespace UI{
-    interface IButtonHandler{
+    interface IButtonTapEventer{
         + Tap() : void
         + Release() : void
     }
@@ -25,32 +19,32 @@ namespace UI{
         + ReleaseAction() : void
     }
 
-    class LeftButtonHandler{
+    class LeftButtonEventer{
         + playerLeftMover : IPlayerButtonAction
         - Start() : void
         + Tap() : void
         + Release() : void
     }
-    LeftButtonHandler ..|> IButtonHandler
-    LeftButtonHandler --> IPlayerButtonAction
+    LeftButtonEventer ..|> IButtonTapEventer
+    LeftButtonEventer --> IPlayerButtonAction
     
-    class RightButtonHandler{
+    class RightButtonEventer{
         + playerRightMover : IPlayerButtonAction
         - Start() : void
         + Tap() : void
         + Release() : void
     }
-    RightButtonHandler ..|> IButtonHandler
-    RightButtonHandler --> IPlayerButtonAction
+    RightButtonEventer ..|> IButtonTapEventer
+    RightButtonEventer --> IPlayerButtonAction
     
-    class JumpButtonHandler{
+    class JumpButtonEventer{
         + playerJumper : IPlayerButtonAction
         - Start() : void
         + Tap() : void
         + Release() : void
     }
-    JumpButtonHandler ..|> IButtonHandler
-    JumpButtonHandler --> IPlayerButtonAction
+    JumpButtonEventer ..|> IButtonTapEventer
+    JumpButtonEventer --> IPlayerButtonAction
 
     class ButtonUsingManager{
         - isUsing : bool
@@ -67,25 +61,37 @@ namespace UI{
 }
 
 namespace Player{
+    interface IPlayerHitEventer{
+        + Handle() : void
+    }
+
+    interface IPlayerMissAnimator{
+        + Animate() : void
+    }
+
     class PlayerLeftMover{
-        + leftButtonUsingManager : ButtonUsingManager
         + PlayerMover
+        + leftButtonUsingManager : ButtonUsingManager
+        + PlayerMoveAnimator
         + TapAction() : void
         + ReleaseAction() : void
     }
     PlayerLeftMover ..|> UI.IPlayerButtonAction
-    PlayerLeftMover --> UI.ButtonUsingManager
     PlayerLeftMover --> PlayerMover
+    PlayerLeftMover --> UI.ButtonUsingManager
+    PlayerLeftMover --> PlayerMoveAnimator
 
     class PlayerRightMover{
-        + rightButtonUsingManager : ButtonUsingManager
         + PlayerMover
+        + rightButtonUsingManager : ButtonUsingManager
+        + PlayerMoveAnimator
         + TapAction() : void
         + ReleaseAction() : void
     }
     PlayerRightMover ..|> UI.IPlayerButtonAction
-    PlayerRightMover --> UI.ButtonUsingManager
     PlayerRightMover --> PlayerMover
+    PlayerRightMover --> UI.ButtonUsingManager
+    PlayerRightMover --> PlayerMoveAnimator
 
     class PlayerMover{
         + Rigidbody2D
@@ -103,43 +109,72 @@ namespace Player{
         + jumpPower : float
         - goJump : bool
         + blockLayer : LayerMask
-        + Animator
+        + PlayerMoveAnimator
         - FixedUpdate() : void
         ~ ButtonJump() : void
         ~ Jump() : void
-        - canJump() : bool
+        - CanJump() : bool
         + TapAction() : void
         + ReleaseAction() : void
     }
     PlayerJumper ..|>  UI.IPlayerButtonAction
+    PlayerJumper --> PlayerMoveAnimator
 
-    class PlayerHitSensor{
+    class PlayerHitHandler{
         + GameModeManager
         - OnTriggerEnter2D(Collider2D collision) : void
     }
-    PlayerHitSensor --> GameManager.GameModeManager
-    PlayerHitSensor --> Player.IHitEventHandler
-    PlayerHitSensor --> .GameEnum
+    PlayerHitHandler --> GameManager.GameModeManager
+    PlayerHitHandler --> Player.IPlayerHitEventer
+    PlayerHitHandler --> .GameEnum
 
     class PlayerDestroyer{
         ~ Destroy() : void
     }
+
+     class PlayerEnemyHitAnimator{
+         + CircleCollider2D
+         + BoxCollider2D
+         + PlayerDestroyer
+         + Animate() : void
+    }
+    PlayerEnemyHitAnimator ..|> IPlayerMissAnimator
+    PlayerEnemyHitAnimator --> PlayerDestroyer
+
+    class PlayerOutZoneAnimator{
+        + CircleCollider2D
+        + BoxCollider2D
+        + PlayerDestroyer
+        + Animate() : void
+    }
+    PlayerOutZoneAnimator ..|> IPlayerMissAnimator
+    PlayerOutZoneAnimator --> PlayerDestroyer
+
+    class PlayerMoveAnimator{
+        + Animator
+        ~ Jump() : void
+        ~ Stop() : void
+        ~ Move() : void
+    }
+
 }
 
 namespace KeyboardInput{
-    class KeyboardHandler{
+    class KeyboardEventer{
         + PlayerMover
         + PlayerJumper
         + rightButtonUsingManager : ButtonUsingManager
         + leftButtonUsingManager : ButtonUsingManager
         + jumpButtonUsingManager : ButtonUsingManager
+        + PlayerMoveAnimator
         + GameModeManager
         - Update() : void
     }
-    KeyboardHandler --> Player.PlayerMover
-    KeyboardHandler --> Player.PlayerJumper
-    KeyboardHandler --> UI.ButtonUsingManager
-    KeyboardHandler --> GameManager.GameModeManager
+    KeyboardEventer --> Player.PlayerMover
+    KeyboardEventer --> Player.PlayerJumper
+    KeyboardEventer --> UI.ButtonUsingManager
+    KeyboardEventer --> GameManager.GameModeManager
+    KeyboardEventer --> Player.PlayerMoveAnimator
 }
 
 namespace GameScene{
@@ -177,19 +212,22 @@ namespace Enemy{
     }
     EnemyMover --> .GameEnum
 
-    class EnemyHitHandler{
+    class EnemyHitEventer{
         + player : Transform
         + PlayerJumper
-        + PlayerDestroyer
+        + PlayerEnemyHitAnimator : IPlayerMissAnimator
         + EnemyDestroyer
+        + GameModeManager
         ~ gameOverDisplayer : ILabelDisplayer
         - Start() : void
-        + DoEvent() : void
+        + Handle() : void
     }
-    EnemyHitHandler ..|> Player.IHitEventHandler
-    EnemyHitHandler --> Player.PlayerJumper
-    EnemyHitHandler --> Player.PlayerDestroyer
-    EnemyHitHandler --> EnemyDestroyer
+    EnemyHitEventer ..|> Player.IPlayerHitEventer
+    EnemyHitEventer --> Player.PlayerJumper
+    EnemyHitEventer --> Player.IPlayerMissAnimator
+    EnemyHitEventer --> EnemyDestroyer
+    EnemyHitEventer --> GameManager.GameModeManager
+    EnemyHitEventer --> .ILabelDisplayer
 
     class EnemyDestroyer{
         ~ Destroy() : void
@@ -202,16 +240,16 @@ namespace Orb{
         ~ Destroy() : void
     }
 
-    class OrbHitHandler{
+    class OrbHitEventer{
         + OrbDestroyer
         + OrbManager
         + ScoreManager
-        + DoEvent() : void
+        + Handle() : void
     }
-    OrbHitHandler --> OrbDestroyer
-    OrbHitHandler --> OrbManager
-    OrbHitHandler --> Score.ScoreManager
-    OrbHitHandler ..|> Player.IHitEventHandler
+    OrbHitEventer ..|> Player.IPlayerHitEventer
+    OrbHitEventer --> OrbDestroyer
+    OrbHitEventer --> OrbManager
+    OrbHitEventer --> Score.ScoreManager
 
     class OrbManager{
         + ORB_POINT : int
@@ -240,30 +278,45 @@ namespace Score{
 }
 
 namespace OutZone{
-    class OutZoneHitHandler{
+    class OutZoneHitEventer{
         ~ gameOverDisplayer : ILabelDisplayer
-        + PlayerDestroyer
+        + PlayerOutZoneAnimator : IPlayerMissAnimator
+        + GameModeManager
         - Start() : void
-        + DoEvent() : void
+        + Handle() : void
     }
-    OutZoneHitHandler ..|> Player.IHitEventHandler
-    OutZoneHitHandler --> .ILabelDisplayer
-    OutZoneHitHandler --> Player.PlayerDestroyer
+    OutZoneHitEventer ..|> Player.IPlayerHitEventer
+    OutZoneHitEventer --> .ILabelDisplayer
+    OutZoneHitEventer --> Player.IPlayerMissAnimator
+    OutZoneHitEventer --> GameManager.GameModeManager    
 }
 
 namespace Goal{
-    class GoalHitHandler{
+    class GoalHitEventer{
         ~ gameClearDisplayer : ILabelDisplayer
         + ButtonsActivator
         + GameModeManager
         - Start() : void
-        + DoEvent() : void
+        + Handle() : void
     }
-    GoalHitHandler ..|> Player.IHitEventHandler
-    GoalHitHandler --> .ILabelDisplayer
-    GoalHitHandler --> UI.ButtonsActivator
-    GoalHitHandler --> GameManager.GameModeManager
-    GoalHitHandler --> .GameEnum
+    GoalHitEventer ..|> Player.IPlayerHitEventer
+    GoalHitEventer --> .ILabelDisplayer
+    GoalHitEventer --> UI.ButtonsActivator
+    GoalHitEventer --> GameManager.GameModeManager
+    GoalHitEventer --> .GameEnum
 }
 
+namespace Needle{
+    class NeedleHitEventer{
+        ~ gameOverDisplayer : ILabelDisplayer
+        + PlayerEnemyHitAnimator : IPlayerMissAnimator
+        + GameModeManager
+        - Start() : void
+        + Handle() : void
+    }
+    NeedleHitEventer ..|> Player.IPlayerHitEventer
+    NeedleHitEventer --> Player.IPlayerMissAnimator
+    NeedleHitEventer --> GameManager.GameModeManager
+    NeedleHitEventer --> .ILabelDisplayer
+}
 @enduml
