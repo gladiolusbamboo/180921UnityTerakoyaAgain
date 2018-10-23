@@ -7,13 +7,12 @@ namespace Player
     {
         public AudioSource audioSource;
         public AudioClip se;
+        public PlayerJumpableJudger playerJumpableJudger;
 
-        // ジャンプできる状態かどうか判定のために使う
-        public PlayerJumper playerJumper;
 
         internal void Play()
         {
-            if (playerJumper.CanJump())
+            if (playerJumpableJudger.CanJump())
             {
                 audioSource.PlayOneShot(se);
             }

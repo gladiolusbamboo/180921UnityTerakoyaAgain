@@ -6,11 +6,11 @@ namespace Player
     {
         public Animator animator;
         // ジャンプできる状態かどうか判定のために使う
-        public PlayerJumper playerJumper;
+        public PlayerJumpableJudger playerJumpableJudger;
 
         internal void Jump()
         {
-            if (playerJumper.CanJump())
+            if (playerJumpableJudger.CanJump())
                 animator.SetTrigger("Jump");
         }
 

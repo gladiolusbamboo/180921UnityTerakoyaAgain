@@ -3281,6 +3281,7 @@ GameObject:
   - component: {fileID: 1129320851}
   - component: {fileID: 1129320853}
   - component: {fileID: 1129320852}
+  - component: {fileID: 1129320854}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -3428,11 +3429,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rbody: {fileID: 1129320837}
   jumpPower: 400
-  blockLayer:
-    serializedVersion: 2
-    m_Bits: 256
   playerMoveAnimator: {fileID: 1129320851}
   playerJumpSEPlayer: {fileID: 1129320853}
+  playerJumpableJudger: {fileID: 1129320854}
 --- !u!114 &1129320844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3541,7 +3540,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 1129320848}
-  playerJumper: {fileID: 1129320843}
+  playerJumpableJudger: {fileID: 1129320854}
 --- !u!82 &1129320852
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3635,7 +3634,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioSource: {fileID: 1129320852}
   se: {fileID: 8300000, guid: e3f2bf8efcc30dc4294ba52f553bff80, type: 3}
-  playerJumper: {fileID: 1129320843}
+  playerJumpableJudger: {fileID: 1129320854}
+--- !u!114 &1129320854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1129320836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f03084091f515be45b0e0bdcc8ada986, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blockLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1001 &1138554306
 Prefab:
   m_ObjectHideFlags: 0
