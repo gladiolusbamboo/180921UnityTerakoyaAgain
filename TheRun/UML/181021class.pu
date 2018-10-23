@@ -103,9 +103,9 @@ namespace Player{
         + Rigidbody2D
         + jumpPower : float
         - goJump : bool
-        + blockLayer : LayerMask
         + PlayerMoveAnimator
         + PlayerJumpSEPlayer
+        + PlayerJumpableJudger        
         - FixedUpdate() : void
         ~ ButtonJump() : void
         ~ Jump() : void
@@ -116,6 +116,12 @@ namespace Player{
     PlayerJumper ..|> UI.IUIButtonHandler
     PlayerJumper --> PlayerMoveAnimator
     PlayerJumper --> PlayerJumpSEPlayer
+    PlayerJumper --> PlayerJumpableJudger
+
+    class PlayerJumpableJudger{
+        + blockLayer : LayerMask
+        ~ CanJump() : bool
+    }
 
     class PlayerLeftMover{
         + PlayerMover
@@ -143,12 +149,12 @@ namespace Player{
 
     class PlayerMoveAnimator{
         + Animator
-        + PlayerJumper
+        + PlayerJumpableJudger
         ~ Jump() : void
         ~ Stop() : void
         ~ Move() : void
     }
-    PlayerMoveAnimator --> PlayerJumper : ジャンプできるか判定
+    PlayerMoveAnimator --> PlayerJumpableJudger
 
     class PlayerMover{
         + Rigidbody2D
@@ -182,10 +188,10 @@ namespace Player{
     class PlayerJumpSEPlayer{
         + AudioSource
         + se : AudioClip
-        + PlayerJumper
+        + PlayerJumpableJudger
         ~ Play() : void
     }
-    PlayerJumpSEPlayer --> PlayerJumper : ジャンプできるか判定
+    PlayerJumpSEPlayer --> PlayerJumpableJudger
 }
 
 namespace Enemy{
